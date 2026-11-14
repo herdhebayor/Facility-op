@@ -16,6 +16,10 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Account recovery
+
+Password recovery is approved by an administrator. From a staff profile, an admin can generate a temporary recovery password and share it directly with the staff member. It expires after 24 hours, is shown only once, and requires the staff member to set a new password at sign-in. No email delivery provider is required.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
