@@ -1,15 +1,33 @@
 import { NextResponse } from "next/server";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { connectDB } from "@/lib/mongodb";
 import Company from "@/models/Company";
 import User from "@/models/User";
 import { requireSession } from "@/lib/requireSession";
 import { hashPassword, createSessionToken, setSessionCookie } from "@/lib/auth";
-import companyExist from "@/lib/companyExist";
 
 // POST /api/companies - register a new company + its first manager account.
 // This is the entry point for the "different companies can register" flow.
 export async function POST(req) {
-  const { companyName, adminName, email, password } = await req.json();
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Request body must be valid JSON" }, { status: 400 });
+  }
+  const { registrationKey, companyName, adminName, email, password } = body || {};
+
+  const expectedKey = process.env.COMPANY_REGISTRATION_KEY;
+  if (!expectedKey) {
+    console.error("Company registration is disabled because COMPANY_REGISTRATION_KEY is not configured.");
+    return NextResponse.json({ error: "Company registration is not configured." }, { status: 503 });
+  }
+  const providedKey = typeof registrationKey === "string" ? registrationKey : "";
+  const expectedDigest = createHash("sha256").update(expectedKey).digest();
+  const providedDigest = createHash("sha256").update(providedKey).digest();
+  if (providedKey.length > 1024 || !timingSafeEqual(expectedDigest, providedDigest)) {
+    return NextResponse.json({ error: "Invalid company registration key" }, { status: 403 });
+  }
 
   if (!companyName || !adminName || !email || !password) {
     return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -17,7 +35,7 @@ export async function POST(req) {
 
   await connectDB();
 
-  const existing = await companyExist();
+  const existing = await Company.exists({});
   if (existing) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 409 });
   }

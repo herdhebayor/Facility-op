@@ -13,7 +13,7 @@ export default function ChatWidget() {
       type="button"
       onClick={() => router.push("/chat")}
       aria-label="Open secure chat"
-      className="fixed bottom-25 right-7 z-50 inline-flex cursor-pointer items-center gap-2 rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-indigo-900/20 transition hover:bg-indigo-700"
+      className="fixed bottom-25 -right-20 z-50 inline-flex cursor-pointer h-20 w-25 items-center gap-2 rounded-3xl hover:right-5 bg-indigo-600 justify-center text-sm font-semibold text-white shadow-xl shadow-indigo-900/20   hover:bg-indigo-700"
     >
       <MessageSquareText className="h-4 w-4" />
       Chat

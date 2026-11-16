@@ -16,7 +16,7 @@ import {
   BriefcaseBusiness,
   LoaderCircle
 } from "lucide-react";
-import { DashboardSkeleton } from "@/components/PageSkeleton";
+import { ManagerSkeleton } from "@/components/PageSkeleton";
 
 type DashboardTask = {
   _id: string;
@@ -121,7 +121,7 @@ const stats = [
 }
 
   if (loading) {
-    return <DashboardSkeleton />;
+    return <ManagerSkeleton />;
   }
 
   const activity = [
@@ -132,20 +132,19 @@ const stats = [
 
 
   return (
-    <main className="h-screen overflow-y-scroll bg-zinc-50 px-0 md:p-4 text-slate-600">
-      <div className="mx-auto w-full space-y-6">
-        <header className="overflow-hidden p-4 ">
-          <div className="flex flex-col gap-6 p-3 sm:flex-row sm:items-end sm:justify-between">
+    <main className="h-screen overflow-y-scroll bg-slate-100 pb-20 md:px-8 text-slate-600">
+      <div className="h-full w-full ">
+        <header className="overflow-hidden space-y-4 p-4">
+          <div className="flex flex-col gap-6 p-4 bg-white rounded-xl shadow-md sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">Facility Manager</p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Dashboard</h1>
               <p className="mt-2 max-w-xl text-sm leading-6 text-indigo-400">Manage your team, check availability, and view individual staff profiles.</p>
             </div>
-            
           </div>
-          <section className="grid gap-4 mt-4 grid-cols-2 py-4 px-2  xl:grid-cols-4">
+          <section className="grid gap-4 grid-cols-2  xl:grid-cols-4">
           {stats.map(({ label, value, change, icon: Icon, tone }) => (
-            <div key={label} className="rounded-2xl   bg-zinc-200 p-4 shadow-lg ">
+            <div key={label} className="rounded-xl   bg-white p-4 shadow-md ">
               <div className="flex items-center justify-between">
                 <div className={`flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br ${tone}`}>
                   <Icon className="h-5 w-5 " />
@@ -162,13 +161,13 @@ const stats = [
         </section>
           
         </header>
-        <section className="xl:grid flex flex-col-reverse p-4 gap-6 xl:grid-cols-[1.2fr_0.8fr] ">
-          <div className=" max-h-130 overflow-hidden rounded-lg bg-white p-4 shadow-md">
+        <section className="xl:grid flex flex-col-reverse px-4 gap-4 xl:grid-cols-[1.2fr_0.8fr] ">
+          <div className=" max-h-130 overflow-hidden rounded-xl bg-white p-4 shadow-md">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-semibold">Pending Tasks</h2>
               </div>
-              <button onClick={()=> router.push('/jobs')} className="rounded-full px-3 py-1 text-xs font-bold hover:border-zinc-50/50 bg-zinc-100 hover:border transition duration-150 cursor-pointer text-indigo-500">View all</button>
+              <button onClick={()=> router.push('/jobs')} className="rounded-full px-3 py-1 text-xs font-bold hover:border-zinc-50/50 bg-zinc-100 hover:border   duration-150 cursor-pointer text-indigo-500">View all</button>
             </div>
 
             <div className="font-bold h-full">
@@ -183,7 +182,7 @@ const stats = [
               {tasks.map((task) => {
                 const department = departments.find((item) => String(item._id) === String(task.departmentId))
                   || departments.find((item) => item.name?.toLowerCase() === String(task.staffType || "").toLowerCase() && String(item.locationId) === String(task.locationId));
-                return <button onClick={()=> router.push(`/tickets/${encodeURIComponent(task._id)}`)} key={task._id} className="my-2 rounded-lg bg-zinc-100 cursor-pointer  hover:bg-zinc-200 duration-150 transition w-full py-2 px-3">
+                return <button onClick={()=> router.push(`/tickets/${encodeURIComponent(task._id)}`)} key={task._id} className="my-2 rounded-lg bg-zinc-100 cursor-pointer  hover:bg-zinc-200 duration-150   w-full py-2 px-3">
                   <div className="grid grid-cols-6 w-full items-center gap-3">
                     <div className="col-span-3 flex items-center text-left gap-3">
                       <Circle className="h-5 w-5" />
@@ -193,8 +192,8 @@ const stats = [
                       </div>
                     </div>
                     <div className="col-span-1 line-clamp-1">{department?.name || task.staffType || "Department"}</div>
-                    <div className={`rounded-md col-span-1 px-2.5 py-1 text-xs ${task.priority === 'high'?'bg-red-500/10 text-red-500':task.priority === 'medium' || task.priority === 'routine'?'text-amber-600 bg-amber-600/10':'text-green-500 bg-green-500/10'}`}>{task.priority === "routine" ? "Medium" : task.priority === "high" ? "High" : task.priority === "low" ? "Low" : "Medium"}</div>
-                    <div className={`rounded-md cols-span-1 px-2.5 py-1 text-xs ${task.status === 'pending'?'bg-amber-500/10 text-amber-500': task.status === 'in_progress' ? 'text-blue-600 bg-blue-600/10' : 'text-indigo-600 bg-indigo-600/10'}`}>
+                    <div className={`rounded-md col-span-1 px-2.5 py-1 text-xs ${task.priority === 'high'?'bg-red-300 text-red-700':task.priority === 'medium' || task.priority === 'routine'?'text-amber-700 bg-amber-300':'text-green-700 bg-green-300'}`}>{task.priority === "routine" ? "Medium" : task.priority === "high" ? "High" : task.priority === "low" ? "Low" : "Medium"}</div>
+                    <div className={`rounded-md cols-span-1 px-2.5 py-1 text-xs ${task.status === 'pending'?'bg-amber-300 text-amber-700': task.status === 'in_progress' ? 'text-blue-700 bg-blue-300' : 'text-cyan-700 bg-cyan-300'}`}>
                   {task.status.replaceAll("_", " ")}
                   </div>
                   </div>
@@ -204,10 +203,10 @@ const stats = [
             </div>
           </div>
 
-          <div className="overflow-hidden max-h-130 bg-white  p-4 rounded-lg shadow-md ">
+          <div className="overflow-hidden max-h-130 bg-white p-4 rounded-xl shadow-md ">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold ">Department Overview</h2>
-                <button onClick={() => router.push('/departments')} className="bg-zinc-100 hover:text-indigo-500 duration-150 cursor-pointer  rounded-full text-indigo-400 text-sm px-3 py-1">
+                <button onClick={() => router.push('/departments')} className="rounded-full px-3 py-1 text-xs font-bold hover:border-zinc-50/50 bg-zinc-100 hover:border   duration-150 cursor-pointer text-indigo-500">
                     View all
                 </button>
               </div>
@@ -241,7 +240,7 @@ const stats = [
 
         </section>
         <section className="p-4">
-        <div className=" bg-white shadow-md rounded-lg  p-4">
+        <div className=" bg-white shadow-md rounded-xl p-4">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">Daily routine reviews</p>
@@ -252,7 +251,7 @@ const stats = [
           {departments.some((department) => department.routineSubmissions?.length) ? (
             <div className="grid gap-3 md:grid-cols-2">
               {departments.flatMap((department) => (department.routineSubmissions || []).map((submission) => (
-                <div key={submission._id} className="rounded-lg bg-slate-100 p-4 transition hover:bg-emerald-50/40">
+                <div key={submission._id} className="rounded-lg bg-slate-100 p-4   hover:bg-emerald-50/40">
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="font-semibold text-slate-900">{submission.routineName}</p>
@@ -269,20 +268,20 @@ const stats = [
           ) : <p className="rounded-lg bg-slate-100 p-4 text-center text-sm text-slate-500">No routines have been submitted today.</p>}
         </div>
         </section>
-        <section className="grid gap-4 grid-cols-1 p-4 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-[1.2fr_1fr_1fr]">
-          <div className="rounded-lg w-full min-h-80 shadow-lg   bg-white p-4 ">
+        <section className="grid gap-4 grid-cols-1 px-4 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-[1.2fr_1fr_1fr]">
+          <div className="rounded-lg w-full min-h-80 shadow-lg bg-white p-4 ">
             <div className="h-full">
               <div>
                 <h2 className="mt-2 text-2xl font-semibold">Staff on shift</h2>
               </div>
               
-              <div className="min-h-[calc(100%-35px)] overflow-y-scroll">
+              <div className="min-h-[calc(100%-50px)] mt-4 space-y-3 overflow-y-scroll">
                 {staffs.filter(st => st.shiftStatus === "on").map((s) => {
                   const isManager = s.role === "manager";
-                  return <article key={s._id} onClick={() => router.push(`/staff/${s._id}`)} className={`rounded-lg cursor-pointer bg-zinc-100 px-3 py-3 transition hover:bg-slate-50/70 sm:px-4 `}>
+                  return <article key={s._id} onClick={() => router.push(`/staff/${s._id}`)} className={`rounded-lg cursor-pointer bg-slate-100 px-3 py-3   hover:border hover:border-indigo-400 sm:px-4 `}>
                         <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
                           <div className="flex min-w-0 flex-1 items-center gap-3">
-                          <div className={`flex h-12 w-12 uppercase shrink-0 items-center justify-center rounded-lg text-sm shadow-sm font-bold ${isManager ? "bg-violet-50 text-vilet-700" : "bg-indigo-50 text-indigo-700"}`}>
+                          <div className={`flex h-12 w-12 uppercase shrink-0 items-center justify-center rounded-lg text-sm shadow-sm font-bold ${isManager ? "bg-violet-50 text-vi0let-700" : "bg-indigo-50 text-indigo-700"}`}>
                             {initials(s.name)}
                           </div>
                           <div className="min-w-fit">
@@ -343,7 +342,7 @@ const stats = [
                 <button
                   key={item.label}
                   onClick={() => router.push(item.href)}
-                  className="flex w-full items-center cursor-pointer justify-between rounded-lg bg-zinc-100 p-4 text-left text-sm transition hover:border-indigo-400/40 hover:shadow-xl duration-300"
+                  className="flex w-full items-center cursor-pointer justify-between rounded-lg bg-slate-100 p-4 text-left text-sm hover:border hover:border-indigo-400"
                 >
                   <span>{item.label}</span>
                   <ArrowUpRight className="h-4 w-4 text-indigo-400" />
@@ -351,7 +350,6 @@ const stats = [
               ))}
             </div>
           </div> 
-
         </section>
       </div>
     </main>

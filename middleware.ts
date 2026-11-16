@@ -4,7 +4,8 @@ import { SignJWT, jwtVerify } from "jose";
 
 export const COOKIE_NAME = "facility_session";
 const secret = new TextEncoder().encode(
-  process.env.JWT_SECRET || "development-secret");
+  process.env.JWT_SECRET || "development-secret"
+);
 
 async function createSessionToken(payload: Record<string, unknown>) {
   return new SignJWT(payload)
@@ -23,19 +24,30 @@ async function verifySessionToken(token: string) {
   }
 }
 
+
 export default async function proxy(req: NextRequest) {
   const res = NextResponse.next();
-
+  const { pathname } = req.nextUrl;
+  const isPublicRoute =
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/unauthorize") ||
+    pathname.startsWith("/error") 
   const cookie = req.cookies.get(COOKIE_NAME)?.value;
-  if (!cookie) return res;
+  if (!cookie) {
+    return isPublicRoute ? res : NextResponse.redirect(new URL("/login", req.url));
+  }
 
   const payload = await verifySessionToken(cookie);
   if (!payload) {
     res.cookies.delete(COOKIE_NAME);
-    return res;
+    return isPublicRoute ? res : NextResponse.redirect(new URL("/login", req.url));
   }
 
-  const { iat, exp, nbf, ...userData } = payload as Record<string, unknown>;
+  const userData = Object.fromEntries(
+    Object.entries(payload).filter(([key]) => !["iat", "exp", "nbf"].includes(key))
+  );
   const refreshToken = await createSessionToken(userData);
 
   res.cookies.set({
@@ -48,11 +60,26 @@ export default async function proxy(req: NextRequest) {
     maxAge: 60 * 60 * 12,
   });
 
+  if (isPublicRoute) return res;
+
+  const role = payload.role;
+  if (typeof payload.userId !== "string" || typeof role !== "string") {
+    res.cookies.delete(COOKIE_NAME);
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (pathname.startsWith("/admin") && role !== "admin") {
+    return NextResponse.redirect(new URL('/unauthorized', req.url));
+  }
+  if (!pathname.startsWith("/admin") && role === "admin") {
+    return NextResponse.redirect(new URL('/admin/dashboard', req.url));
+  }
+
   return res;
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)",
   ],
 };

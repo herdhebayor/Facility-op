@@ -31,14 +31,15 @@ function NavBar({ user: initialUser = null }) {
 
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("sidebar-close"));
+    setIsDropdownOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    function handleOutsideClick(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    function handleOutsideClick(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
         setIsNotificationsOpen(false);
       }
     }
@@ -80,7 +81,7 @@ function NavBar({ user: initialUser = null }) {
     };
   }, [user?._id, dismissalStorageKey]);
 
-  function saveDismissedIds(nextIds) {
+  function saveDismissedIds(nextIds: string[]) {
     const boundedIds = [...new Set(nextIds)].slice(-200);
     setDismissedIds(boundedIds);
     try {
@@ -90,7 +91,7 @@ function NavBar({ user: initialUser = null }) {
     }
   }
 
-  function dismissNotification(id) {
+  function dismissNotification(id:string) {
     if (!dismissedIds.includes(id)) saveDismissedIds([...dismissedIds, id]);
   }
 
@@ -124,13 +125,13 @@ function NavBar({ user: initialUser = null }) {
   const visibleNotifications = notifications.filter((item) => !dismissedIds.includes(item.id));
 
   return (
-    <div className="sticky left-0 top-0 z-30 h-20 w-full px-6 bg-white shadow-md">
+    <div className="sticky left-0 top-0 z-30 h-25 w-full px-6 bg-white shadow-md">
       <div className="flex h-full items-center justify-between gap-3">
         <div className="flex items-center gap-3 md:hidden">
           <button
             type="button"
             onClick={toggleSidebar}
-            className="flex h-11 w-11 items-center cursor-pointer justify-center rounded-lg shadow-md bg-zinc-100  text-slate-800 transition hover:bg-slate-100"
+            className="flex h-11 w-11 items-center cursor-pointer justify-center rounded-lg shadow-md bg-zinc-100  text-slate-800  -slate-100"
             aria-label="Open navigation"
           >
             <Menu size={20} />
@@ -142,7 +143,7 @@ function NavBar({ user: initialUser = null }) {
             <button
               type="button"
               onClick={() => setIsNotificationsOpen((open) => !open)}
-              className="relative flex cursor-pointer items-center justify-center  text-slate-700 hover:text-indigo-500 transition"
+              className="relative flex cursor-pointer items-center justify-center  text-slate-700 hover:text-indigo-500  "
               aria-label={`Notifications${visibleNotifications.length ? `, ${visibleNotifications.length} new` : ""}`}
               aria-expanded={isNotificationsOpen}
               aria-controls="navbar-notifications"
@@ -183,7 +184,7 @@ function NavBar({ user: initialUser = null }) {
                 </div>}
               </div>
               <footer className="sticky bottom-0 shrink-0 border-t border-slate-200 bg-white p-3">
-                <button type="button" onClick={clearAllNotifications} disabled={!visibleNotifications.length} className="w-full rounded-xl bg-slate-900 cursor-pointer px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300">Clear all</button>
+                <button type="button" onClick={clearAllNotifications} disabled={!visibleNotifications.length} className="w-full rounded-xl bg-slate-900 cursor-pointer px-3 py-2.5 text-sm font-semibold text-white   hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300">Clear all</button>
               </footer>
             </section>}
           </div>
@@ -210,7 +211,7 @@ function NavBar({ user: initialUser = null }) {
       </div>
 
       {isDropdownOpen && (
-        <div ref={dropdownRef} className="absolute right-4 top-20 z-40 w-72 rounded-2xl bg-white p-2 shadow-2xl">
+        <div ref={dropdownRef} className="absolute right-4 top-20 z-40 w-72 rounded-xl border border-zinc-50/10 bg-white p-2 shadow-2xl">
           <div className="flex items-center gap-3 border-b border-slate-200 p-3">
             <div className="relative">
               <div className="flex h-10.5 w-10.5 items-center justify-center rounded-full bg-linear-to-br from-indigo-600 to-violet-500 text-white"><User className="h-5 w-5" /></div>
@@ -223,19 +224,19 @@ function NavBar({ user: initialUser = null }) {
           </div>
 
           <div className="space-y-1 p-2">
-            <Link href={dashboardLink} onClick={() => setIsDropdownOpen(false)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-slate-700 text-sm transition hover:text-white hover:bg-slate-900">
+            <Link href={dashboardLink} onClick={() => setIsDropdownOpen(false)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-slate-700 text-sm   hover:text-white hover:bg-slate-900">
               <Users className="h-4 w-4 text-slate-500" />
               {dashboardLabel}
             </Link>
-            <Link href="/chat" onClick={() => setIsDropdownOpen(false)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-slate-700 transition hover:text-white hover:bg-slate-900">
+            <Link href="/chat" onClick={() => setIsDropdownOpen(false)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-slate-700   hover:text-white hover:bg-slate-900">
               <MessageSquareText className="h-4 w-4 text-slate-500" />
               Messages
             </Link>
-            <Link href={reportLink} onClick={() => setIsDropdownOpen(false)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-slate-700 transition hover:text-white hover:bg-slate-900">
+            <Link href={reportLink} onClick={() => setIsDropdownOpen(false)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-slate-700   hover:text-white hover:bg-slate-900">
               <ShieldCheck className="h-4 w-4 text-slate-500" />
               {reportLabel}
             </Link>
-            <button type="button" onClick={handleLogout} className="mt-2 flex w-full items-center gap-3 rounded-xl bg-slate-900 p-3 text-left text-sm font-medium text-white transition cursor-pointer hover:bg-red-800">
+            <button type="button" onClick={handleLogout} className="mt-2 flex w-full items-center gap-3 rounded-xl bg-slate-900 p-3 text-left text-sm font-medium text-white   cursor-pointer hover:bg-red-800">
               Log out
             </button>
           </div>

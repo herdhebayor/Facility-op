@@ -73,9 +73,9 @@ function getMonthlyTaskCounts(jobs: LocationJob[], now = new Date()): MonthlyTas
 
 function LocationPageSkeleton() {
   return (
-    <main className="min-h-screen bg-zinc-50 px-0 md:px-4 py-6"  aria-busy="true" aria-label="Loading location">
+    <main className="min-h-screen bg-slate-100 md:px-8 p-4 "  aria-busy="true" aria-label="Loading location">
       <div className="mx-auto w-full space-y-6 ">
-        <header className="flex flex-col gap-4 rounded-xl p-4 bg-slate-100 shadow-lg sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-4 rounded-xl p-4 bg-white shadow-lg sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-3">
             <div className="h-9 w-56 animate-pulse rounded-lg bg-slate-200" />
             <div className="h-3 w-40 animate-pulse rounded bg-slate-200" />
@@ -337,12 +337,12 @@ export default function LocationUi() {
   }
 
   return (
-    <main className="min-h-screen bg-white relative py-6 text-slate-600">
-      <div className="mx-auto w-full space-y-6">
-       {user.role === "admin" && <button onClick={()=> router.push('/location')} className="inline-flex items-center gap-2 rounded-full border cursor-pointer border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:text-slate-900">
+    <main className="min-h-screen bg-slate-100 relative md:px-8 pb-10 text-slate-600">
+      <div className=" p-4 w-full space-y-4">
+       {user.role === "admin" && <button onClick={()=> router.push('/location')} className="inline-flex items-center gap-2 rounded-full border cursor-pointer border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm   hover:border-slate-300 hover:text-slate-900">
             <ArrowLeft className="w-6 h-6"/> Back to locations
         </button>}
-        <header className=" px-4 md:px-8">
+        <header className=" p-4 bg-white rounded-xl shadow-md">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="min-w-0 flex-1">
               {editingLocation && user?.role === "admin" ? (
@@ -382,7 +382,7 @@ export default function LocationUi() {
           </div>
         </header>
 
-        <section className="bg-s p-4 md:p-8" aria-labelledby="location-performance-heading">
+        <section className="bg-white shadow-md rounded-xl p-4 " aria-labelledby="location-performance-heading">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <header>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">Task activity</p>
@@ -392,11 +392,11 @@ export default function LocationUi() {
             <div className="flex gap-3">
               <div className="rounded-2xl bg-indigo-50 px-4 py-3">
                 <p className="text-xs font-medium text-indigo-600">Created</p>
-                <p className="mt-1 text-xl font-bold tabular-nums text-indigo-950">{totalCreatedTasks}</p>
+                <p className="mt-1 text-xl font-bold tabular-nums text-indigo-800">{totalCreatedTasks}</p>
               </div>
               <div className="rounded-2xl bg-emerald-50 px-4 py-3">
                 <p className="text-xs font-medium text-emerald-700">Completed</p>
-                <p className="mt-1 text-xl font-bold tabular-nums text-emerald-950">{totalCompletedTasks}</p>
+                <p className="mt-1 text-xl font-bold tabular-nums text-emerald-800">{totalCompletedTasks}</p>
               </div>
             </div>
           </div>
@@ -431,11 +431,11 @@ export default function LocationUi() {
                             ].map((bar) => (
                               <div key={bar.label} className="group relative flex h-full w-10 items-end">
                                 <div
-                                  className={`w-full ${bar.color} transition-[height] duration-500`}
+                                  className={`w-full ${bar.color}  -[height] duration-500`}
                                   style={{ height: `${bar.count ? Math.max(5, (bar.count / maxMonthlyTasks) * 100) : 0}%` }}
                                 />
                                 <span
-                                  className="pointer-events-none absolute left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg bg-slate-900 px-2 py-1 text-xs text-white opacity-0 shadow transition-opacity group-hover:opacity-100"
+                                  className="pointer-events-none absolute left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg bg-slate-900 px-2 py-1 text-xs text-white opacity-0 shadow  -opacity group-hover:opacity-100"
                                   style={{ bottom: `${Math.min(bar.count ? Math.max(5, (bar.count / maxMonthlyTasks) * 100) + 2 : 2, 90)}%` }}
                                 >
                                   {bar.label}: {bar.count}
@@ -457,7 +457,7 @@ export default function LocationUi() {
         </section>
  
         <div className="flex flex-wrap gap-4 items-center">
-            <section className="w-full min-w-120 min-h-120 md:px-8 p-4 ">
+            <section className="w-full min-h-120 bg-white rounded-xl shadow-md p-4 ">
               <div className="mb-5 flex items-center justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-slate-500">Coverage</p>
@@ -503,7 +503,7 @@ export default function LocationUi() {
                         </div>
                         <div className="space-y-2">
                           {managers.map((manager) => (
-                            <button key={manager._id} onClick={() => router.push(`/staff/${encodeURIComponent(manager._id)}?locationId=${encodeURIComponent(locationId)}`)} aria-label={`View ${manager.name}'s staff profile`} className="flex items-center cursor-pointer justify-between gap-4 rounded-xl w-full bg-slate-100 p-4 py-3 transition">
+                            <button key={manager._id} onClick={() => router.push(`/staff/${encodeURIComponent(manager._id)}?locationId=${encodeURIComponent(locationId)}`)} aria-label={`View ${manager.name}'s staff profile`} className="flex items-center cursor-pointer justify-between gap-4 rounded-xl w-full bg-slate-100 p-4 py-3  ">
                               <div className="flex min-w-0 items-center gap-3">
                                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-700">
                                   <User className="h-5 w-5" />
@@ -534,7 +534,7 @@ export default function LocationUi() {
                         </div>
                         <div className="space-y-2">
                           {deptStaff.length >= 1 ? (deptStaff.map((employee) => (
-                            <button key={employee._id} onClick={() => router.push(`/staff/${encodeURIComponent(employee._id)}?locationId=${encodeURIComponent(locationId)}`)} aria-label={`View ${employee.name}'s staff profile`} className="flex items-center w-full cursor-pointer justify-between gap-4 rounded-xl  bg-slate-100 p-4 py-3 hover:bg-slate-200 shadow-sm transition">
+                            <button key={employee._id} onClick={() => router.push(`/staff/${encodeURIComponent(employee._id)}?locationId=${encodeURIComponent(locationId)}`)} aria-label={`View ${employee.name}'s staff profile`} className="flex items-center w-full cursor-pointer justify-between gap-4 rounded-xl  bg-slate-100 p-4 py-3 hover:bg-slate-200 shadow-sm  ">
                               <div className="flex min-w-0 items-center gap-3">
                                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
                                   <User className="h-5 w-5" />

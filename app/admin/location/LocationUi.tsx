@@ -36,17 +36,6 @@ export default function LocationUi({user}) {
   }, []);
 
 
- 
-
-  if(user && user.role !== 'admin'){
-    return <div className="w-full h-screen bg-zinc-50 flex justify-center items-center text-slate-600">
-      <div className="w-full flex flex-col justify-center">
-      <h1 className="text-2xl font-bold text-center">You are not authorize to view this page</h1>
-      <button className="mt-4 px-10 py-4 cursor-pointer bg-indigo-600 mx-auto text-white rounded-lg hover:bg-indigo-700" onClick={()=> router.push('/dashboard')}>Go back</button>
-      </div>
-    </div>
-  }
-
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -92,9 +81,9 @@ export default function LocationUi({user}) {
   const canManageLocations = user && ["admin", "manager"].includes(user.role || "");
 
   return (
-    <main className="min-h-screen bg-zinc-50 px-4 py-6 text-slate-600 md:px-6 xl:px-8">
-      <div className="mx-auto w-full space-y-6">
-        <header className="rounded-xl border border-zinc-50/10 bg-white p-4 shadow-md">
+    <main className="min-h-screen bg-slate-100 p-4 text-slate-600 md:px-8">
+      <div className="mx-auto w-full space-y-4 ">
+        <header className="rounded-xl  bg-white p-4 shadow-md">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.35em] text-indigo-600">Operations</p>
@@ -109,13 +98,13 @@ export default function LocationUi({user}) {
         </header>
 
         {loading ? (
-          <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="h-80 animate-pulse rounded-xl bg-slate-200" />
             <div className="h-80 animate-pulse rounded-xl bg-slate-200" />
           </div>
         ) : (
           <div className="">
-            <section className="rounded-xl border border-zinc-50/10 bg-white p-5 w-full min-h-120 shadow-lg">
+            <section className="rounded-xl border border-zinc-50/10 bg-white p-4 w-full min-h-120 shadow-lg">
               <div className="mb-5 flex items-center justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-slate-500">Coverage</p>
@@ -185,7 +174,7 @@ export default function LocationUi({user}) {
                       value={form.name}
                       onChange={handleChange}
                       placeholder="North Tower"
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white"
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none   focus:border-indigo-400 focus:bg-white"
                     />
                   </div>
 
@@ -198,7 +187,7 @@ export default function LocationUi({user}) {
                       onChange={handleChange}
                       rows={4}
                       placeholder="12 Marina Road, Lagos"
-                      className="w-full rounded-2xl border resize-none border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white"
+                      className="w-full rounded-2xl border resize-none border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none   focus:border-indigo-400 focus:bg-white"
                     />
                   </div>
 
@@ -211,7 +200,7 @@ export default function LocationUi({user}) {
                         name="timezone"
                         value={form.timezone}
                         onChange={handleChange}
-                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white"
+                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-slate-900 outline-none   focus:border-indigo-400 focus:bg-white"
                       />
                     </div>
                   </div>
@@ -230,7 +219,7 @@ export default function LocationUi({user}) {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-slate-900 p-4 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-slate-900 p-4 text-sm font-semibold text-white   hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     <Plus className="h-4 w-4" />
                     {saving ? "Creating..." : "Create location"}

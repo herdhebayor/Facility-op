@@ -145,7 +145,7 @@ export default function ReportDetailPage() {
   if (!report) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-slate-100 px-5">
-        <section className="max-w-md rounded-[28px] border border-slate-200 bg-white p-8 text-center shadow-sm">
+        <section className="max-w-md rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
           <AlertTriangle className="mx-auto h-10 w-10 text-rose-500" />
           <h1 className="mt-4 text-xl font-semibold text-slate-900">Report unavailable</h1>
           <p role="alert" className="mt-2 text-sm text-slate-600">{error || "This report could not be found."}</p>
@@ -157,8 +157,8 @@ export default function ReportDetailPage() {
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-6 pb-24 text-slate-900 md:px-8">
-      <div className="mx-auto max-w-4xl space-y-6">
-        <button type="button" onClick={() => router.push("/report")} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-slate-300 hover:text-slate-900">
+      <div className="mx-auto space-y-6">
+        <button type="button" onClick={() => router.push("/report")} className="inline-flex items-center gap-2 rounded-full shadow-md  bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-indigo-300 hover:border hover:text-slate-900">
           <ArrowLeft className="h-4 w-4" /> Back to reports
         </button>
 
@@ -168,7 +168,7 @@ export default function ReportDetailPage() {
           </p>
         )}
 
-        <article className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
+        <article className="overflow-hidden rounded-xl bg-white shadow-md">
           <div className={`h-2 ${report.type === "incident" || report.type === "staff_issue" ? "bg-rose-500" : "bg-indigo-500"}`} />
           <div className="p-5 md:p-8">
             <div className="flex flex-wrap items-center gap-2">
@@ -192,7 +192,7 @@ export default function ReportDetailPage() {
           </div>
         </article>
 
-        <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm md:p-8">
+        <section className="rounded-xl  bg-white p-5 shadow-md md:p-8">
           <div className="mb-6 flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600"><MessageSquareText className="h-5 w-5" /></div>
             <div>
@@ -202,7 +202,7 @@ export default function ReportDetailPage() {
           </div>
 
           {!report.comments?.length ? (
-            <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-5 py-8 text-center">
+            <div className="rounded-xl bg-slate-100/10 px-5 py-8  shadow-md text-center">
               <MessageSquareText className="mx-auto h-7 w-7 text-slate-300" />
               <p className="mt-3 text-sm font-medium text-slate-700">No responses yet</p>
               <p className="mt-1 text-xs text-slate-500">Responses from the report recipient will appear here.</p>
@@ -230,7 +230,7 @@ export default function ReportDetailPage() {
               <textarea id="report-reply" required maxLength={2000} rows={4} value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Add a response or next steps..." className="w-full resize-y rounded-xl border border-slate-200 px-3.5 py-3 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100" />
               <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs text-slate-500">Your reply will be visible to the report author.</p>
-                <button type="submit" disabled={sending || !reply.trim()} className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
+                <button type="submit" disabled={sending || !reply.trim()} className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white   hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
                   <Send className="h-4 w-4" />{sending ? "Sending..." : "Send response"}
                 </button>
               </div>
@@ -243,7 +243,6 @@ export default function ReportDetailPage() {
           )}
         </section>
       </div>
-      {user && <BottomNav role={user.role} />}
     </main>
   );
 }

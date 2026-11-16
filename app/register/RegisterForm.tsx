@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Building2, CheckCircle2, Mail, ShieldCheck, UserRound } from "lucide-react";
+import { ArrowRight, Building2, CheckCircle2, KeyRound, Mail, ShieldCheck, UserRound } from "lucide-react";
 
 export default function RegisterForm() {
   const router = useRouter();
-  const [form, setForm] = useState({ companyName: "", adminName: "", email: "", password: "" });
+  const [form, setForm] = useState({ registrationKey: "", companyName: "", adminName: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +31,7 @@ export default function RegisterForm() {
         setError(data.error || "Something went wrong");
         return;
       }
-      router.push("/dashboard");
+      router.push(data.user?.role === "admin" ? "/admin/dashboard" : "/dashboard");
     } catch {
       setError("Something went wrong");
     } finally {
@@ -95,6 +95,26 @@ export default function RegisterForm() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="space-y-2">
+                <label htmlFor="registrationKey" className="text-sm font-medium text-slate-600">Company registration key</label>
+                <div className="flex items-center gap-3 rounded-2xl border border-zinc-100 bg-indigo-200/40 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500/30">
+                  <div className="flex w-12 shrink-0 items-center justify-center rounded-l-2xl bg-indigo-50 p-4">
+                    <KeyRound className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    id="registrationKey"
+                    name="registrationKey"
+                    type="password"
+                    autoComplete="off"
+                    required
+                    value={form.registrationKey}
+                    onChange={(event) => update("registrationKey", event.target.value)}
+                    placeholder="Enter your registration key"
+                    className="w-full rounded-r-2xl border-0 px-3 py-4 text-base text-slate-700 focus:outline-none"
+                  />
+                </div>
+                <p className="text-xs text-slate-500">Enter the access key before creating a company account.</p>
+              </div>
               <div className="grid gap-5 sm:grid-cols-2">
               {fields.map((field) => {
                 const Icon = field.icon;
@@ -102,7 +122,7 @@ export default function RegisterForm() {
                 return (
                   <div key={field.key} className="space-y-2">
                     <label className="text-sm font-medium text-slate-600">{field.label}</label>
-                    <div className="flex items-center gap-3 rounded-2xl border border-zinc-100 bg-indigo-200/40 transition focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500/30">
+                    <div className="flex items-center gap-3 rounded-2xl border border-zinc-100 bg-indigo-200/40   focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500/30">
                       <div className="flex w-12 shrink-0 items-center justify-center rounded-l-2xl bg-indigo-50 p-4">
                         <Icon className="h-4 w-4 text-slate-400" />
                       </div>
@@ -127,7 +147,7 @@ export default function RegisterForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-indigo-600 to-violet-500 p-4 text-base font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:brightness-110 disabled:cursor-not-allowed disabled:bg-gray-300"
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-indigo-600 to-violet-500 p-4 text-base font-semibold text-white shadow-lg shadow-indigo-500/30   hover:brightness-110 disabled:cursor-not-allowed disabled:bg-gray-300"
               >
                 {loading ? "Creating account..." : "Create company"}
                 <ArrowRight className="h-4 w-4" />

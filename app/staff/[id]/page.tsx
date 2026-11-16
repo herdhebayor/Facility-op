@@ -127,7 +127,7 @@ function CopyableValue({
         type="button"
         onClick={onCopy}
         aria-label={copied ? `${label} copied` : `Copy ${label}`}
-        className="pointer-events-none absolute left-1/2 top-full z-20 mt-2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-lg bg-slate-900 px-2.5 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition group-hover/copy:pointer-events-auto group-hover/copy:opacity-100 group-focus-within/copy:pointer-events-auto group-focus-within/copy:opacity-100"
+        className="pointer-events-none absolute left-1/2 top-full z-20 mt-2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-lg bg-slate-900 px-2.5 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg   group-hover/copy:pointer-events-auto group-hover/copy:opacity-100 group-focus-within/copy:pointer-events-auto group-focus-within/copy:opacity-100"
       >
         {copied ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
         {copied ? "Copied" : "Copy"}
@@ -340,14 +340,14 @@ export default function StaffDetailPage() {
   if (loading) {
     return (
       <main className="min-h-screen bg-slate-100 p-5 md:p-8" aria-busy="true" aria-label="Loading staff profile">
-        <div className="mx-auto max-w-6xl space-y-5">
-          <div className="h-48 animate-pulse rounded-xl bg-slate-200" />
+        <div className="mx-auto space-y-4">
+          <div className="h-48 animate-pulse rounded-xl bg-white" />
           <div className="grid gap-5 md:grid-cols-3">
             {[0, 1, 2].map((item) => <div key={item} className="h-32 animate-pulse rounded-3xl bg-white" />)}
           </div>
-          <div className="h-80 animate-pulse rounded-xl bg-slate-200" />
-          <div className="h-80 animate-pulse rounded-xl bg-slate-200" />
-          <div className="h-80 animate-pulse rounded-xl bg-slate-200" />
+          <div className="h-80 animate-pulse rounded-xl bg-white" />
+          <div className="h-80 animate-pulse rounded-xl bg-white" />
+          <div className="h-80 animate-pulse rounded-xl bg-white" />
         </div>
       </main>
     );
@@ -373,21 +373,21 @@ export default function StaffDetailPage() {
   const latestShift = shifts[0];
 
   return (
-    <main className="min-h-screen bg-white px-4 py-6 pb-10 text-slate-600 md:px-8">
-      <div className="mx-auto w-full space-y-6">
+    <main className="min-h-screen bg-slate-100 p-4  pb-10 text-slate-600 md:px-8">
+      <div className="mx-auto w-full space-y-4">
         <button
           onClick={() => router.push(backTo)}
-          className="inline-flex items-center gap-2 rounded-full cursor-pointer bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 shadow-md transition hover:border-slate-300 hover:text-slate-900"
+          className="inline-flex items-center gap-2 rounded-full cursor-pointer bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-md   hover:border-slate-300 hover:text-slate-900"
         >
           <ArrowLeft className="h-4 w-4" /> Back to location
         </button>
 
-        <header className="overflow-hidden rounded-xl border border-zinc-50/10 bg-white shadow-md">
+        <header className="overflow-hidden rounded-xl bg-white shadow-md">
           <div className="h-36 bg-linear-to-br from-slate-950 via-indigo-950 to-indigo-700 md:h-44" />
           <div className="px-5 pb-6 md:px-8">
             <div className="-mt-12 flex flex-col gap-4 sm:-mt-14 sm:flex-row sm:items-end sm:justify-between">
               <div className="flex min-w-0 items-end gap-4">
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[26px] border-4 border-white bg-indigo-100 text-2xl font-bold text-indigo-700 shadow-sm">
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[26px] border-4 border-emerald-300 bg-emerald-300 text-2xl font-bold text-white shadow-sm">
                   {initials(staff.name)}
                 </div>
                 <div className="min-w-0 pb-1">
@@ -396,14 +396,14 @@ export default function StaffDetailPage() {
                 </div>
               </div>
              <div className="flex flex-wrap gap-2">
-              {viewerRole === "admin" && <button type="button" onClick={openDetailsEditor} className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/20">
+              {viewerRole === "admin" && <button type="button" onClick={openDetailsEditor} className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-3 text-sm font-semibold text-white   hover:bg-white/20">
                 <Pencil className="h-4 w-4" />Edit details
               </button>}
               {viewerRole === "admin" && staff.isSetupComplete !== false && staff.isActive !== false && <button
                 type="button"
                 disabled={generatingRecoveryPassword}
                 onClick={() => void generateRecoveryPassword()}
-                className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/20 disabled:cursor-wait disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-3 text-sm font-semibold text-white   hover:bg-white/20 disabled:cursor-wait disabled:opacity-60"
               >
                 <KeyRound className="h-4 w-4" />{generatingRecoveryPassword ? "Generating..." : "Generate recovery password"}
               </button>}
@@ -411,7 +411,7 @@ export default function StaffDetailPage() {
                 type="button"
                 disabled={updatingStatus}
                 onClick={() => staff.isActive === false ? void handleToggleStaffStatus() : setConfirmSuspend(true)}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 cursor-pointer text-sm font-semibold text-white transition disabled:cursor-wait disabled:opacity-60 ${
+                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 cursor-pointer text-sm font-semibold text-white   disabled:cursor-wait disabled:opacity-60 ${
                   staff.isActive === false
                     ? "bg-emerald-600 hover:bg-emerald-700"
                     : "bg-rose-600 hover:bg-rose-700"
@@ -468,7 +468,7 @@ export default function StaffDetailPage() {
         )}
         {editingDetails && viewerRole === "admin" && (
           <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
-            <section role="dialog" aria-modal="true" aria-labelledby="edit-staff-title" className="my-auto w-full max-w-2xl rounded-[28px] bg-white p-6 shadow-2xl">
+            <section role="dialog" aria-modal="true" aria-labelledby="edit-staff-title" className="my-auto w-full max-w-2xl rounded-xl bg-white p-6 shadow-2xl">
               <div className="mb-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">Administrator controls</p>
                 <h2 id="edit-staff-title" className="mt-1 text-xl font-bold text-slate-900">Edit staff details</h2>
@@ -518,7 +518,7 @@ export default function StaffDetailPage() {
         )}
         {
           staff.isSetupComplete === false && (
-            <div className="rounded-[28px] border border-amber-200 bg-amber-50 px-6 py-4 text-sm text-amber-700 shadow-sm">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-6 py-4 text-sm text-amber-700 shadow-sm">
               <p className="text-xs">This staff member has not completed their account setup yet. They will not be able to sign in until they finish the setup process.</p>
               <div className="mt-2 flex items-center gap-2 text-xs text-amber-700">
                 <ShieldAlert className="h-4 w-4" />
@@ -533,13 +533,13 @@ export default function StaffDetailPage() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-sm" onMouseDown={(event) => {
             if (event.target === event.currentTarget && !updatingStatus) setConfirmSuspend(false);
           }}>
-            <section role="alertdialog" aria-modal="true" aria-labelledby="staff-profile-suspend-title" className="w-full max-w-md rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl">
+            <section role="alertdialog" aria-modal="true" aria-labelledby="staff-profile-suspend-title" className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-2xl">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600"><ShieldAlert className="h-6 w-6" /></div>
               <h2 id="staff-profile-suspend-title" className="mt-4 text-lg font-semibold text-slate-900">Suspend {staff.name}?</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">They will no longer be able to sign in until an administrator reactivates their account.</p>
               <div className="mt-6 flex justify-end gap-3">
-                <button type="button" disabled={updatingStatus} onClick={() => setConfirmSuspend(false)} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-50">Cancel</button>
-                <button type="button" disabled={updatingStatus} onClick={() => void confirmStaffSuspension()} className="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-700 disabled:cursor-wait disabled:opacity-60">
+                <button type="button" disabled={updatingStatus} onClick={() => setConfirmSuspend(false)} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600   hover:bg-slate-50 disabled:opacity-50">Cancel</button>
+                <button type="button" disabled={updatingStatus} onClick={() => void confirmStaffSuspension()} className="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white   hover:bg-rose-700 disabled:cursor-wait disabled:opacity-60">
                   {updatingStatus ? "Suspending..." : "Confirm suspension"}
                 </button>
               </div>
@@ -547,14 +547,14 @@ export default function StaffDetailPage() {
           </div>
         )}
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Staff activity summary">
+        <section className="grid gap-4 grid-cols-2 lg:grid-cols-4" aria-label="Staff activity summary">
           {[
             { label: "Tasks completed", value: workStats.completed, icon: CheckCircle2, color: "text-emerald-600 bg-emerald-50" },
             { label: "Tasks created", value: workStats.created, icon: ClipboardList, color: "text-indigo-600 bg-indigo-50" },
             { label: "Reports written", value: reportsWritten.length, icon: FileText, color: "text-amber-600 bg-amber-50" },
             { label: "Reports about staff", value: reportsAbout.length, icon: ShieldCheck, color: "text-violet-600 bg-violet-50" },
           ].map(({ label, value, icon: Icon, color }) => (
-            <article key={label} className="rounded-xl bg-slate-100 p-4 shadow-md">
+            <article key={label} className="rounded-xl bg-white p-4 shadow-md">
               <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${color}`}><Icon className="h-5 w-5" /></div>
               <p className="mt-4 text-3xl font-bold tabular-nums text-slate-900">{value}</p>
               <p className="mt-1 text-sm text-slate-500">{label}</p>
@@ -562,9 +562,9 @@ export default function StaffDetailPage() {
           ))}
         </section>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(280px,0.85fr)]">
-          <div className="space-y-6">
-            <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-md">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.65fr)_minmax(280px,0.85fr)]">
+          <div className="space-y-4">
+            <section className="rounded-xl bg-white p-6 shadow-md">
               <div className="mb-5 flex items-center justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Work history</p>
@@ -634,7 +634,7 @@ export default function StaffDetailPage() {
             </section>
           </div>
 
-          <aside className="space-y-6">
+          <aside className="space-y-4">
             <section className="rounded-xl border border-slate-50/10 bg-white p-4 shadow-md">
               <div className="mb-5 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-600"><UserRound className="h-5 w-5" /></div>

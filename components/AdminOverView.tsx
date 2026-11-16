@@ -1,14 +1,15 @@
+'use client'
 import React,{useState, useEffect} from 'react'
 import { useRouter } from 'next/navigation'
 import { TrendingUp,Gauge,CheckCircle2, 
     CalendarDays,Building2,ArrowUpRight,
     Wrench,Users,FolderKanban,BriefcaseBusiness,
-    Mail,MapPin
+    Mail,MapPin,ShieldCheck,
  } from 'lucide-react'
 import Link from 'next/link'
 import { DashboardSkeleton } from './PageSkeleton'
 
-function AdminOverView({quickActions, tasks,activity,stats}) {
+function AdminOverView() {
    const [error, setError] = useState('')
    const [loading, setLoading] = useState(false)
    const [locations,setLocations] = useState([])
@@ -55,43 +56,98 @@ function AdminOverView({quickActions, tasks,activity,stats}) {
   return name.split(" ").map((n) => n[0]).join("");
 }
 
+const stats = [
+    {
+      label: "Active locations",
+      value: String(locations.length || 0),
+      change: "+2 this week",
+      icon: MapPin,
+      tone: "from-indigo-500/50 to-violet-500/50",
+    },
+    {
+      label: "Open tasks",
+      value: String(jobs.length || 0),
+      change: `${jobs.length} require review`,
+      icon: BriefcaseBusiness,
+      tone: "from-cyan-500/50 to-blue-500/50",
+    },
+    {
+      label: "Team members",
+      value: String(staff.length || 0),
+      change: "+9 new hires",
+      icon: Users,
+      tone: "from-emerald-500/50 to-teal-500/50",
+    },
+    {
+      label: "Compliance",
+      value: "96%",
+      change: "On target",
+      icon: ShieldCheck,
+      tone: "from-amber-500/50 to-orange-500/50",
+    },
+  ];
+
+  
+  const tasks = [
+    { title: "Site inspection", location: "North Tower", status: "Due today", accent: "bg-emerald-500/15 text-emerald-400" },
+    { title: "HVAC service check", location: "West Campus", status: "Pending", accent: "bg-amber-500/15 text-amber-400" },
+    { title: "Guest room deep clean", location: "Harbor Suites", status: "In progress", accent: "bg-indigo-500/15 text-indigo-400" },
+  ];
+
+  const quickActions =[
+            { label: "Create new location", href: "/manager" },
+            { label: "Assign staffing plan", href: "/staff" },
+            { label: "Review flagged issues", href: "/report" },
+            { label: "Export weekly report", href: "/report" },
+          ];
+
+  const activity = [
+    { name: "Aisha Okafor", action: "completed safety briefing", time: "8 mins ago" },
+    { name: "Mason Hill", action: "updated maintenance queue", time: "21 mins ago" },
+    { name: "Facility Ops", action: "published new roster", time: "1 hour ago" },
+  ];
+
   if (loading) {
     return <DashboardSkeleton />;
   }
 
   return (
-    <main className="min-h-screen bg-zinc-50 px-0 md:px-4 space-y-5 py-6">
-    <header className="overflow-hidden p-4">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <main className="min-h-screen bg-slate-100 md:px-8 pb-6">
+      <header className="p-4">
+          <div className="flex flex-col gap-6 bg-white p-4 rounded-xl md:flex-row md:items-end md:justify-between shadow-md ">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">Admin</p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Dashboard</h1>
               <p className="mt-2 max-w-xl text-sm leading-6 text-indigo-300">Manage your team, check availability, and view individual staff profiles.</p>
-            </div>
-            
+            </div>   
           </div>
-          <section className="grid gap-4 sm:grid-cols-2 mt-4 grid-cols-1 xl:grid-cols-4">
-          {stats.map(({ label, value, change, icon: Icon, tone }) => (
-            <div key={label} className="rounded-xl bg-slate-100 p-4 shadow-lg ">
-              <div className="flex items-center justify-between">
-                <div className={`flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br ${tone}`}>
-                  <Icon className="h-5 w-5 " />
+          {error && (
+          <section role="alert" className="flex flex-col gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 sm:flex-row sm:items-center sm:justify-between">
+            <span>{error}</span>
+            <button type="button" onClick={() => window.location.reload()} className="shrink-0 rounded-lg bg-rose-600 px-3 py-2 text-xs cursor-pointer font-semibold text-white hover:bg-rose-700">Try again</button>
+          </section>
+        )}
+          <section className="grid gap-4 grid-cols-2 mt-4 xl:grid-cols-4">
+            {stats.map(({ label, value, change, icon: Icon, tone }) => (
+              <div key={label} className="rounded-xl bg-white p-4 shadow-md ">
+                <div className="flex items-center justify-between">
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br ${tone}`}>
+                    <Icon className="h-5 w-5 " />
+                  </div>
+                  <span className="text-xs text-emerald-400">{change}</span>
                 </div>
-                <span className="text-xs text-emerald-400">{change}</span>
-              </div>
 
-              <div className="mt-6">
-                <div className="text-3xl font-bold">{value}</div>
-                <div className="mt-1 text-sm text-slate-400">{label}</div>
+                <div className="mt-6">
+                  <div className="text-3xl font-bold">{value}</div>
+                  <div className="mt-1 text-sm text-slate-400">{label}</div>
+                </div>
               </div>
-            </div>
-          ))}
-        </section>
-          
-      </header>
+            ))}
+          </section>   
+        </header>
     
-    <section className="grid gap-6 p-4 xl:grid-cols-[1.5fr_1fr]">
-    <div className="rounded-xl  bg-white p-5 shadow-lg">
+    <section className="grid gap-4 px-4 xl:grid-cols-[1.5fr_1fr]">
+    <div className="rounded-xl  bg-white p-4 shadow-lg">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Performance</p>
@@ -133,7 +189,7 @@ function AdminOverView({quickActions, tasks,activity,stats}) {
             </div>
           </div>
 
-          <div className="rounded-xl  bg-white p-5 shadow-lg ">
+          <div className="rounded-xl  bg-white p-4 shadow-lg ">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-indigo-400">Quick actions</p>
@@ -143,11 +199,11 @@ function AdminOverView({quickActions, tasks,activity,stats}) {
             </div>
 
             <div className="mt-5 space-y-3">
-              {quickActions.map((item) => (
+              {quickActions.map((item:{label:string,href:string}) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex w-full items-center justify-between rounded-xl cursor-pointer bg-slate-100 px-4 py-3 text-left text-sm text-slate-400 hover:border  hover:border-indigo-400/40"
+                  className="flex w-full items-center justify-between rounded-lg cursor-pointer bg-slate-100 px-4 py-3 text-left text-sm text-slate-400 hover:border  hover:border-indigo-400/40"
                 >
                   <span>{item.label}</span>
                   <ArrowUpRight className="h-4 w-4 text-indigo-300" />
@@ -155,10 +211,10 @@ function AdminOverView({quickActions, tasks,activity,stats}) {
               ))}
             </div>
           </div>
-          </section>
+        </section>
 
-          <section className="grid gap-6 p-4 xl:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-xl  bg-white p-5 shadow-lg">
+          <section className="grid gap-4 p-4 xl:grid-cols-[1.2fr_0.8fr]">
+          <div className="rounded-xl  bg-white p-4 shadow-lg">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Operations</p>
@@ -210,15 +266,15 @@ function AdminOverView({quickActions, tasks,activity,stats}) {
             </div>
           </div>
 
-          <div className="rounded-xl  bg-white p-5 shadow-lg">
+          <div className="rounded-xl  bg-white p-4 shadow-lg">
             <div className="mb-4">
               <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Live feed</p>
               <h2 className="mt-2 text-2xl font-semibold">Recent activity</h2>
             </div>
 
-            <div className="space-y-4">
-              {activity.map((item) => (
-                <div key={item.name + item.time} className="flex items-start gap-3 rounded-xl border border-zinc-100/60  p-3">
+            <div className="space-y-2">
+              {activity.map((item:{name:string,action:string,time:string}) => (
+                <div key={item.name + item.time} className="flex items-start gap-3 border-b border-zinc-200  p-3">
                   <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-indigo-400">
                     <Users className="h-4 w-4" />
                   </div>
@@ -233,8 +289,8 @@ function AdminOverView({quickActions, tasks,activity,stats}) {
           </div>
         </section>
 
-        <section className="grid gap-6 p-4 lg:grid-cols-2">
-          <div className="rounded-xl  bg-white p-5 shadow-lg">
+        <section className="grid gap-4 px-4 lg:grid-cols-2">
+          <div className="rounded-xl  bg-white p-4 shadow-lg">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Coverage</p>
@@ -245,7 +301,7 @@ function AdminOverView({quickActions, tasks,activity,stats}) {
 
             <div className="space-y-3">
               {(loading ? Array.from({ length: 3 }) : locations.slice(0, 4)).map((location, index) => (
-                <div onClick={()=> router.push(`location/${location._id}`)} key={location?._id || index} className="flex items-center justify-between rounded-xl cursor-pointer bg-slate-100 hover:border hover:border-indigo-400/40 p-3">
+                <div onClick={()=> router.push(`location/${location._id}`)} key={location?._id || index} className="flex items-center justify-between rounded-lg cursor-pointer bg-slate-100 hover:border hover:border-indigo-400/40 p-3">
                   <div>
                     <div className="font-medium">{location?.name || "Loading location..."}</div>
                     <div className="text-sm text-slate-400">{`${staff.filter(st => st.locationId === location._id).length || 0} staff members`}</div>

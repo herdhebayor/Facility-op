@@ -19,12 +19,14 @@ export async function GET(_req, { params }) {
   const currentUser = await User.findOne({
     _id: session.userId,
     companyId: session.companyId,
-  }).select("role locationId department").lean();
+  }).select("role locationId department shiftStatus").lean();
   if (!currentUser) return NextResponse.json({ error: "Your account could not be found" }, { status: 404 });
   if (currentUser.role !== session.role) {
     return NextResponse.json({ error: "Your account role has changed. Please sign in again." }, { status: 403 });
   }
   const job = await Job.findOne({ _id: id, companyId: session.companyId })
+    .populate("locationId", "name")
+    .populate("departmentId", "name")
     .populate("createdByUserId", "name")
     .populate("closedByUserId", "name")
     .populate("leftByUserId", "name")
@@ -33,13 +35,14 @@ export async function GET(_req, { params }) {
   if (!job) return NextResponse.json({ error: "Job not found" }, { status: 404 });
   if (session.role !== "admin") {
     const locationId = String(currentUser.locationId || session.locationId || session.locationIds?.[0] || "");
-    if (locationId !== String(job.locationId)) {
+    if (locationId !== String(job.locationId?._id || job.locationId)) {
       return NextResponse.json({ error: "Not authorized to view this task" }, { status: 403 });
     }
     if (session.role === "staff") {
-      const department = job.departmentId
+      const departmentId = job.departmentId?._id || job.departmentId;
+      const department = departmentId
         ? await Department.findOne({
-          _id: job.departmentId,
+          _id: departmentId,
           companyId: session.companyId,
           locationId,
           isActive: { $ne: false },
@@ -58,7 +61,7 @@ export async function GET(_req, { params }) {
       }
     }
   }
-  return NextResponse.json({ job });
+  return NextResponse.json({ job, viewerRole: currentUser.role, shiftStatus: currentUser.shiftStatus });
 }
 
 // PATCH /api/jobs/:id  { status?, handoffNote? }
@@ -139,6 +142,9 @@ export async function PATCH(req, { params }) {
   }
 
   if (typeof body?.handoffNote === "string") {
+    if (body.handoffNote.length > 2000) {
+      return NextResponse.json({ error: "Handoff note must be 2000 characters or fewer" }, { status: 400 });
+    }
     job.handoffNote = body.handoffNote;
     job.leftByUserId = session.userId;
     job.leftAt = new Date();
@@ -147,8 +153,11 @@ export async function PATCH(req, { params }) {
   await job.save();
 
   const populatedJob = await Job.findById(job._id)
+    .populate("locationId", "name")
+    .populate("departmentId", "name")
     .populate("createdByUserId", "name")
     .populate("closedByUserId", "name")
+    .populate("leftByUserId", "name")
     .lean();
   return NextResponse.json({ job: populatedJob });
 }

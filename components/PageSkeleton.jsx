@@ -4,15 +4,21 @@ function SkeletonBlock({ className = "" }) {
 
 export function DashboardSkeleton() {
   return (
-    <main className="min-h-screen bg-zinc-50 px-4 py-5 text-slate-100 md:px-6 xl:px-8">
+    <main className="min-h-screen  px-4 py-5 bg-slate-100 md:px-6 xl:px-8">
       <div className="mx-auto w-full space-y-6">
-        <header className="rounded-xl bg-white shadow-xl backdrop-blur-sm p-4">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div className="space-y-3">
-              <SkeletonBlock className="h-3 w-28" />
-              <SkeletonBlock className="h-10 w-72" />
+        <header className="rounded-xl bg-white shadow-md backdrop-blur-sm p-4">
+          <div className="flex gap-6 items-center w-full ">
+            <div className="space-y-3 min-h-28 bg-emerald-400 w-full p-4 md:px-8 rounded-xl">
+              <SkeletonBlock className="h-3 w-[calc(100%-60px)] max-w-28" />
+              <SkeletonBlock className="h-10 w-[calc(100%-60px)] max-w-72" />
+              <SkeletonBlock className="h-7 w-[calc(100%-60px)] max-w-72" />
             </div>
-            <SkeletonBlock className="h-12 w-40 rounded-2xl" />
+            <div className="space-y-3 min-h-28 bg-emerald-400 w-full p-4 md-px-8 rounded-xl">
+              <SkeletonBlock className="h-3 w-[calc(100%-60px)] max-w-28" />
+              <SkeletonBlock className="h-10 w-[calc(100%-60px)] max-w-72" />
+              <SkeletonBlock className="h-7 w-[calc(100%-60px)] max-w-72" />
+            </div>
+            
           </div>
         </header>
 
@@ -68,9 +74,9 @@ export function DashboardSkeleton() {
 
 export function ManagerSkeleton() {
   return (
-    <main className="min-h-screen bg-[#020817] px-4 py-5 text-slate-100 md:px-6 xl:px-8">
-      <div className="mx-auto max-w-7xl space-y-6">
-        <header className="rounded-[28px] border border-white/10 bg-white/5 p-5 shadow-2xl shadow-indigo-950/30 backdrop-blur-sm">
+    <main className="min-h-screen bg-slate-100 px-4 py-5 text-slate-100 md:px-8 xl:px-8">
+      <div className=" space-y-6">
+        <header className="rounded-xl bg-white p-5 shadow-xl backdrop-blur-sm">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-3">
               <SkeletonBlock className="h-3 w-28" />
@@ -82,7 +88,7 @@ export function ManagerSkeleton() {
 
         <section className="grid gap-4  md:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="rounded-3xl border border-white/10 bg-slate-900/70 p-4 shadow-lg shadow-slate-950/30">
+            <div key={index} className="rounded-xl bg-white p-4 shadow-lg">
               <div className="flex items-center justify-between">
                 <SkeletonBlock className="h-11 w-11 rounded-2xl" />
                 <SkeletonBlock className="h-4 w-12" />
@@ -96,12 +102,12 @@ export function ManagerSkeleton() {
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-[28px] border border-white/10 bg-slate-900/70 p-5">
+          <div className="rounded-xl  bg-white p-5">
             <SkeletonBlock className="h-4 w-24" />
             <SkeletonBlock className="mt-3 h-8 w-40" />
             <div className="mt-5 space-y-3">
               {Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="flex items-center justify-between rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                <div key={index} className="flex items-center justify-between rounded-xl  bg-slate-100 p-4">
                   <div className="flex items-center gap-3">
                     <SkeletonBlock className="h-11 w-11 rounded-xl" />
                     <div className="space-y-2">
@@ -115,7 +121,7 @@ export function ManagerSkeleton() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-white/10 bg-slate-900/70 p-5">
+          <div className="rounded-xl  bg-white p-5">
             <SkeletonBlock className="h-4 w-24" />
             <SkeletonBlock className="mt-3 h-8 w-36" />
             <div className="mt-5 space-y-3">
@@ -180,16 +186,16 @@ export function ChatSkeleton() {
 
 export function StaffSkeleton() {
   return (
-    <main className="min-h-screen bg-white pb-24">
-      <div className="px-5 pt-5">
+    <main className="min-h-screen bg-slate-100 pb-24">
+      <div className="px-5 md:px-12 pt-5">
         <SkeletonBlock className="h-12 w-36 rounded-xl" />
-        <div className="mt-6 space-y-6">
+        <div className="mt-6 space-y-6 bg-white rounded-xl p-5 shadow-lg">
           {Array.from({ length: 3 }).map((_, sectionIndex) => (
             <div key={sectionIndex} className="space-y-3">
               <SkeletonBlock className="h-4 w-32" />
               <div className="space-y-2">
                 {Array.from({ length: 3 }).map((_, itemIndex) => (
-                  <div key={itemIndex} className="flex items-center justify-between gap-3 border rounded-md border-zinc-100 bg-zinc-50 px-3 py-2.5">
+                  <div key={itemIndex} className="flex items-center justify-between gap-3 rounded-md bg-slate-100 p-3 ">
                     <div className="flex items-center gap-3">
                       <SkeletonBlock className="h-8 w-8 rounded-full" />
                       <div className="space-y-2">

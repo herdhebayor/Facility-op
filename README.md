@@ -20,6 +20,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Password recovery is approved by an administrator. From a staff profile, an admin can generate a temporary recovery password and share it directly with the staff member. It expires after 24 hours, is shown only once, and requires the staff member to set a new password at sign-in. No email delivery provider is required.
 
+## Company registration
+
+Set the server-side `COMPANY_REGISTRATION_KEY` environment variable before enabling company registration. Applicants must enter this key on `/register`; it is checked on the server and is never exposed to the browser. Do not use a `NEXT_PUBLIC_` prefix. Restart the development server after changing `.env`, and set the same variable in the deployment environment.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

@@ -18,7 +18,7 @@ function TaskDash() {
             <h3 className='text-lg font-semibold text-indigo-500'>
                 Task
             </h3>
-            <button className="text-indigo-400 px-3 py-1 font-bold hover:text-indigo-500 transition">
+            <button className="text-indigo-400 px-3 py-1 font-bold hover:text-indigo-500  ">
                 View all
             </button>
         </div>
@@ -48,7 +48,7 @@ function TaskDash() {
                     <h3 className=' font-semibold text-indigo-500'>
                         Viewing {tasks.length} tasks
                     </h3>
-                    <button className="text-indigo-400 px-3 py-1 flex items-center gap-2 font-bold hover:text-indigo-500 transition">
+                    <button className="text-indigo-400 px-3 py-1 flex items-center gap-2 font-bold hover:text-indigo-500  ">
                         View all tasks <MoveRight size={16} className="inline-block ml-1"/>
                     </button>
                 </div>

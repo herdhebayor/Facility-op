@@ -152,15 +152,12 @@ if(loading){
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-50 py-4 flex flex-col gap-5 text-slate-600">
-
-      <header className="overflow-hidden">
-          
-          <div className="flex flex-col px-4 md:px-8 gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="min-h-screen bg-slate-100 md:px-8 pb-10 flex flex-col text-slate-600">
+      <header className="">
+          <div className="flex flex-col p-4 gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Staff Overview</h1>
+              <h1 className=" text-3xl font-bold tracking-tight md:text-4xl">Staff Overview</h1>
             </div>
-
             <button
               type="button"
               disabled={toggling}
@@ -171,15 +168,15 @@ if(loading){
             </button>
           </div>
 
-          {user && error &&<div className="md:px-8 p-4"> <p role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">Could not complete your request, try again later</p></div>}
+          {user && error &&<div className=" p-4"> <p role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">Could not complete your request, try again later</p></div>}
           
-          <div className='grid grid-cols-2 p-4 md:px-8 items-center gap-4 md:gap-6 w-full'>
-            <div className={`rounded-2xl col-span-1 w-full min-h-full p-5 ${isOff ? "bg-linear-to-br from-amber-500/60 to-amber-500/50" : "bg-linear-to-br from-emerald-500/60 to-emerald-500/50"}`}>
+          <div className='grid grid-cols-2 px-4 items-center gap-4 md:gap-6 w-full'>
+            <div className={`rounded-xl col-span-1 shadow-sm w-full min-h-full p-5 ${isOff ? "bg-linear-to-br from-amber-400/60 to-amber-400/50" : "bg-linear-to-br from-emerald-400/60 to-emerald-400/50"}`}>
               <div className="flex gap-4 items-center mb-4">
-                <Clock3 className={`h-10 w-10 hidden md:block font-bold ${isOff ? "text-amber-400" : "text-emerald-400"}`}/>
+                <Clock3 className={`h-10 w-10 hidden md:block font-bold ${isOff ? "text-amber-600" : "text-emerald-600"}`}/>
                 <div>
-                    <p className="text-xs uppercase tracking-[0.25em] text-slate-400">{user?.name}</p>
-                    <p className={`text-xs uppercase font-bold tracking-[0.25em] ${isOff ? "text-amber-400" : "text-emerald-400"}`}>{isOff? "Off Shift" : "On Shift"}</p>
+                    <p className="text-xs uppercase tracking-[0.25em] ">{user?.name}</p>
+                    <p className={`text-xs uppercase font-bold tracking-[0.25em] ${isOff ? "text-amber-600" : "text-emerald-600"}`}>{isOff? "Off Shift" : "On Shift"}</p>
                 </div>
               </div>
               {
@@ -192,9 +189,9 @@ if(loading){
                 <div className="flex items-center h-fit mt-1">
                   {onShiftStaff.slice(0,6).map((m, index) => {
                     return (
-                      <div key={m._id} className="flex items-center justify-between">
+                      <div key={m._id} className="flex items-center justify-between mt-3">
                         <div className="flex items-center">
-                          <div className={`flex h-12 w-12 p-3 border border-emerald-600 items-center justify-start rounded-full text-sm font-semibold bg-emerald-500 text-white shadow-sm ${index >= 1 && '-ml-8'}`}>
+                          <div className={`flex h-12 w-12 p-3 items-center justify-start rounded-full text-sm font-semibold relative hover:z-10 duration-200 ease-in-out cursor-pointer text-emerald-400 bg-white shadow-xl shadow-slate-800/10  ${index >= 1 && '-ml-8'}`}>
                             {initials(m.name)}
                           </div>
                         </div>
@@ -210,16 +207,16 @@ if(loading){
             </div>
 
             {/* Department */}
-            <div className={`rounded-2xl col-span-1 w-full min-h-full p-5 ${isOff ? "bg-amber-500/60" : "bg-emerald-500/60"}`}>
+            <div className={`rounded-xl col-span-1 w-full h-full p-5 ${isOff ? "bg-amber-400/60" : "bg-emerald-400/60"}`}>
               
-              <div className="flex items-start justify-between h-full gap-6">
-                <div className="w-fit  hidden bg-emerald-500/10 p-2 rounded-full md:flex items-center justify-center">
-                  <Wrench className="w-10 h-10 md:w-15 md:h-15 text-emerald-400"/>
+              <div className="flex items-start h-full gap-6">
+                <div className="w-fit  hidden bg-emerald-500/30 p-2 rounded-full md:flex items-center justify-center">
+                  <Wrench className="w-10 h-10 md:w-15 md:h-15 text-emerald-600"/>
                 </div>
-                <div className="flex flex-col justify-between gap-2">
+                <div className="flex flex-col h-full justify-between gap-2">
                   <h3 className="text-xl md:text-2xl font-bold text-slate-600 capitalize">{routineDepartment?.name}</h3>
                   <p className='text-xs text-slate-7'>{`You and ${routineDepartment?.staffCount} others are in this department`}</p>
-                  <Link href={`departments/${routineDepartment?._id}`} className="min-w-fit w-full mt-4 md:px-10 md:py-3 px-3 py-1.5 flex items-center rounded-lg md:rounded-2xl gap-4 justify-center bg-emerald-500/50 text-white border border-emerald-500 cursor-pointer text-center">
+                  <Link href={`departments/${routineDepartment?._id}`} className="min-w-fit w-full mt-4 md:px-10 md:py-3 px-3 py-1.5 flex items-center rounded-lg md:rounded-2xl gap-4 justify-center text-emerald-500 bg-white shadow-sm hover:bg-white/90 cursor-pointer text-center">
                     View department <MoveUpRight className="md:w-5 md:h-5 h-4 w-4 font-bold"/>
                   </Link>
                 </div>
@@ -227,9 +224,9 @@ if(loading){
               
             </div>
           </div>
-          <div className="grid gap-4 p-4 md:px-8 grid-cols-2 md:grid-cols-4  ">
+          <div className="grid gap-4 p-4 grid-cols-2 md:grid-cols-4  ">
           {stats.map(({ label, value, change, icon: Icon, tone }) => (
-            <div key={label} className="rounded-xl bg-slate-100 p-4 shadow-lg">
+            <div key={label} className="rounded-xl bg-white p-4 shadow-lg">
               <div className="flex items-center gap-2 justify-between">
                 <div className={`flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br ${tone}`}>
                   <Icon className="h-5 w-5 text-white" />
@@ -239,14 +236,14 @@ if(loading){
 
               <div className="mt-6">
                 <div className="text-3xl font-bold">{value}</div>
-                <div className="mt-1 text-sm text-slate-400">{label}</div>
+                <div className="mt-1 text-sm text-indigo-500">{label}</div>
               </div>
             </div>
           ))}
         </div>
         </header>
-        <section className=" p-4 md:px-8 flex md:flex-row md:border-0 border-b border-zinc-50/10 flex-col-reverse justify-between gap-4 ">
-          <div className='w-full md:shadow-md bg-slate-100 md:rounded-lg md:p-4 max-h-150 overflow-hidden md:w-[57%]'>
+        <section className=" px-4 flex md:flex-row flex-col-reverse justify-between gap-4 ">
+          <div className='w-full p-4 shadow-md bg-white rounded-xl max-h-150 overflow-hidden md:w-[58%]'>
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <h2 className="mt-2 text-xl md:text-2xl font-semibold text-slate-800">Department task board</h2>
@@ -254,9 +251,9 @@ if(loading){
               <button onClick={()=>router.push('/jobs')} className=" p-2 text-xs cursor-pointer outline-0 text-indigo-400 hover:text-indigo-500 ">View all tasks</button>
             </div>
 
-            <div className="flex flex-col gap-4 rounded-xl bg-slate-100 shadow-sm max-h-[calc(100%-50px)] overflow-y-scroll">
+            <div className="flex flex-col gap-4 p-2 max-h-[calc(100%-50px)] overflow-y-scroll">
               {jobs.map((job, i) => (
-                <button title="View task" onClick={() => router.push(`/jobs/${job._id}`)} key={job._id} className="rounded-lg hover:ring-1 hover:ring-indigo-500 cursor-pointer bg-white shadow-sm transition p-4 flex items-center gap-4">
+                <button title="View task" onClick={() => router.push(`/jobs/${job._id}`)} key={job._id} className="rounded-lg hover:border hover:border-indigo-500 cursor-pointer bg-zinc-100 shadow-sm p-4 flex items-center gap-4">
                   <div className="flex items-center justify-center gap-2 mb-2">
                     {job.status === "open" ?<Circle className="h-6 w-6 text-zinc-200 "/>:<CircleCheck className="w-6 h-6 text-emerald-500"/>}
                   </div>
@@ -284,7 +281,7 @@ if(loading){
             </div>
           </div>
            {routineDepartment && (
-            <div  className=" bg-slate-100 p-4 md:px-8 md:shadow-md md:rounded-lg w-full md:w-[40%]">
+            <div  className=" bg-white p-4 shadow-md rounded-xl w-full md:w-[40%]">
               <div className="flex flex-col p-4 gap-4">
                 <div className="min-w-0 flex-1">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">Today&apos;s routine </p>
@@ -301,7 +298,7 @@ if(loading){
                         pathLength="100"
                         strokeDasharray="100"
                         strokeDashoffset={100 - routineProgress}
-                        className="transition-[strokeDashOffset] duration-700 ease-out"
+                        className=" -[strokeDashOffset] duration-700 ease-out"
                       />
                       <text x="100" y="100" textAnchor="middle" className="fill-emerald-700 text-[27px] " dominantBaseline="middle">
                         {routineCompletion === null ? "—" : `${routineProgress}%`}
@@ -310,20 +307,20 @@ if(loading){
                   </div>
                   {/* <p className="mt-2 text-xs text-slate-500">{routineDepartment.completedRoutineJobCount} of {routineDepartment.routineJobCount} checks complete · Resets at 6:00 a.m. · {routineDepartment.locationName}</p> */}
                 </div>
-                <button type="button" onClick={() => router.push("/routines")} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-700 p-4 cursor-pointer text-sm font-semibold text-white transition hover:bg-emerald-800"><CheckCircle2 className="h-4 w-4" />Open routine checks</button>
+                <button type="button" onClick={() => router.push("/routines")} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-700 p-4 cursor-pointer text-sm font-semibold text-white   hover:bg-emerald-800"><CheckCircle2 className="h-4 w-4" />Open routine checks</button>
               </div>
             </div>
           )}
         </section>
 
-      <div className="space-y-4 p-4 md:px-8"> 
-        <section className="grid gap-6 space-y-6 xl:grid-cols-[0.85fr_0.55fr_0.55fr]">
-          <div className="min-h-50 p-4 md:px-8 bg-slate-100 shadow-md md:rounded-lg md:h-full max-h-110">
+      <div className=" p-4"> 
+        <section className="grid gap-4 xl:grid-cols-[0.85fr_0.55fr_0.55fr]">
+          <div className="min-h-50 p-4 bg-white shadow-md rounded-xl md:h-full max-h-110">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <h2 className="mt-2 text-xl md:text-2xl font-semibold text-slate-800">My Reports</h2>
               </div>
-              <button onClick={()=> router.push('/report')} className="rounded-full bg-slate-100 px-3 py-1 cursor-pointer text-xs font-medium text-emerald-600 hover:border hover:border-indigo-400/40 transition duration-200">view all</button>
+              <button onClick={()=> router.push('/report')} className="rounded-full bg-slate-100 px-3 py-1 cursor-pointer text-xs font-medium text-emerald-600 hover:border hover:border-indigo-400/40   duration-200">view all</button>
             </div>
             <div className=" mt-3 h-[calc(100%-50px)] overflow-y-scroll space-y-4">
               { reports?.length > 0 ? (
@@ -347,13 +344,13 @@ if(loading){
                       </div>
                     </div>
               </article>)})):(
-              <div className="text-slate-400 h-full flex justify-center items-center">
-                <p className="bg-slate-100 px-4 w-full text-center py-6 rounded-lg">You currently did not have any report yet</p>
+              <div className="h-full flex justify-center items-center">
+                <p className="px-4 w-full text-center py-6 rounded-lg">You currently did not have any report yet</p>
               </div>)
               }
             </div>
           </div>
-          <div className="p-4 md:px-8 bg-slate-100 md:rounded-lg  h-full max-h-110 ">
+          <div className="p-4 bg-white shadow-md rounded-xl  h-full max-h-110 ">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Current team</p>
@@ -369,7 +366,7 @@ if(loading){
                 const isManager = m.role === "manager";
                 if(!showStaffOnDuty && !isOn) return null;
                 return (
-                  <div key={m._id} className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50/10 p-3 shadow-sm">
+                  <div key={m._id} className="flex items-center justify-between rounded-xl hover:border hover:border-indigo-400 cursor-pointer bg-zinc-100 p-3 shadow-sm">
                     <div className="flex items-center gap-3">
                       <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${isOn ? "bg-emerald-500/10 text-emerald-600" : "bg-slate-200 text-slate-500"}`}>
                         {initials(m.name)}
@@ -387,12 +384,15 @@ if(loading){
                 );
               })}
             </div>
-            <button onClick={()=> setShowSatffOnDuty(prev => !prev)} className="w-full left-1/2 p-4 hover:text-indigo-400 top-100 static bg-transparent z-10 text-indigo-500 text-xs cursor-pointer text-center outline-0">
-              {showStaffOnDuty ? 'Close' : "View all"}
-            </button>
+            <div className="w-full left-0 bottom-0 mt-4  static bg-transparent z-10 flex items-center justify-center">
+              
+              <button onClick={()=> setShowSatffOnDuty(prev => !prev)} className="w-fit px-4 py-2 rounded-xl hover:text-indigo-700 hover:border hover:border-indigo-400 bg-transparent z-10 text-indigo-500 text-xs cursor-pointer text-center outline-0">
+                {showStaffOnDuty ? 'Close' : "View all"}
+              </button>
+            </div>
           </div>
 
-          <div className="p-4 md:px-8 bg-slate-100 md:rounded-lg  ">
+          <div className="p-4 bg-white shadow-md rounded-xl  ">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-indigo-400">Quick actions</p>
@@ -412,7 +412,7 @@ if(loading){
                 <button
                   key={item.label}
                   onClick={() => router.push(item.href)}
-                  className="flex w-full items-center justify-between rounded-xl hover:border hover:border-indigo-400/40 cursor-pointer px-4 py-3 bg-emerald-50 text-left text-sm text-slate-600 transition shadow-sm"
+                  className="flex w-full items-center justify-between rounded-xl hover:border hover:border-indigo-400/40 cursor-pointer px-4 py-3 bg-emerald-50 text-left text-sm text-slate-600 shadow-sm"
                 >
                   <span>{item.label}</span>
                   <span className="text-indigo-400">→</span>
@@ -431,8 +431,8 @@ if(loading){
         
       </div>
       {
-        <section className={`md:w-110 w-full h-screen p-8 shadow-lg bg-white fixed ease-in-out duration-300 z-1000 right-0 top-0 ${showStaffOnDuty ? "translate-x-0" : "translate-x-200"}`}>
-          <header className="w-full flex justify-between items-center">
+        <section className={`w-full max-w-120 h-screen p-4 shadow-xl bg-white fixed ease-in-out duration-300 z-1000 right-0 top-0 ${showStaffOnDuty ? "translate-x-0" : "translate-x-200"}`}>
+          <header className="w-full flex justify-between items-center p-4">
             <h2 className="text-2xl uppercase text-slate-400 font-bold">
               Staffs on duty
             </h2>
@@ -442,13 +442,13 @@ if(loading){
 
           </header>
 
-          <div className="space-y-3 mt-20 overflow-y-scroll max-h-[calc(100%-130px)] min-h-[calc(100%-130px)]">
-              {team.slice(0,6).map((m) => {
+          <div className="space-y-3 mt-15 overflow-y-scroll max-h-[calc(100%-130px)] min-h-[calc(100%-130px)] p-4">
+              {team.map((m) => {
                 const isSelf = m._id === user._id;
                 const isOn = m.shiftStatus === "on" || m.role === "manager";
                 const isManager = m.role === "manager";
                 return (
-                  <div key={m._id} className="flex items-center justify-between rounded-2xl border border-zinc-200 bg-zinc-50 p-3">
+                  <div key={m._id} className="flex items-center justify-between rounded-lg shadow-md bg-zinc-100 p-3">
                     <div className="flex items-center gap-3">
                       <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${isOn ? "bg-emerald-500/10 text-emerald-600" : "bg-slate-200 text-slate-500"}`}>
                         {initials(m.name)}

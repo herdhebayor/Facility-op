@@ -38,7 +38,7 @@ function TicketEdge() {
 export default function Ticket({ job, onClick, rotate = 0 }) {
   return (
     <button onClick={onClick} className="text-left w-full" style={{ transform: `rotate(${rotate}deg)` }}>
-      <div className="bg-paper shadow-md hover:shadow-lg transition-shadow">
+      <div className="bg-paper shadow-md hover:shadow-lg  -shadow">
         <TicketEdge />
         <div className="px-4 pb-4 pt-1">
           <div className="flex items-start justify-between gap-2 mb-2">

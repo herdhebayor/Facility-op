@@ -17,8 +17,8 @@ export default function AppError({ error, reset }: { error: Error & { digest?: s
         <h1 className="mt-2 text-2xl font-bold text-slate-900">We couldn’t load this page</h1>
         <p className="mt-2 text-sm leading-6 text-slate-600">Your work is safe. Try loading the page again, or return to the dashboard.</p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          <button type="button" onClick={()=>window.location.reload()} className="inline-flex items-center cursor-pointer justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"><RotateCcw className="h-4 w-4" />Try again</button>
-          <Link href="/dashboard" className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Go to dashboard</Link>
+          <button type="button" onClick={()=>window.location.reload()} className="inline-flex items-center cursor-pointer justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white   hover:bg-indigo-700"><RotateCcw className="h-4 w-4" />Try again</button>
+          <Link href="/dashboard" className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700   hover:bg-slate-50">Go to dashboard</Link>
         </div>
       </section>
     </main>

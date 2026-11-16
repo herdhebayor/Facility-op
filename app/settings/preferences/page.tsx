@@ -25,7 +25,7 @@ export default function SitePreferencesPage() {
           <p className="text-sm text-slate-500">Your choice is saved on this device and applies throughout the app.</p>
           <div className="mt-4 space-y-2">
             {choices.map(({ value, label, description, icon: Icon }) => (
-              <label key={value} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition ${theme === value ? "border-indigo-400 bg-indigo-50" : "border-slate-200 hover:bg-slate-50"}`}>
+              <label key={value} className={`flex cursor-pointer items-center gap-4 rounded-2xl border p-4   ${theme === value ? "border-indigo-400 bg-indigo-50" : "border-slate-200 hover:bg-slate-50"}`}>
                 <input type="radio" name="site-theme" value={value} checked={theme === value} onChange={() => setSiteTheme(value)} className="h-4 w-4 accent-indigo-600" />
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-indigo-600"><Icon className="h-5 w-5" /></span>
                 <span className="min-w-0 flex-1">

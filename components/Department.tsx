@@ -20,7 +20,7 @@ function Department() {
             <h3 className='text-lg font-semibold text-indigo-500'>
                 Departments Overview
             </h3>
-            <button className="text-indigo-400 px-3 font-bold hover:text-indigo-500 transition">
+            <button className="text-indigo-400 px-3 font-bold hover:text-indigo-500  ">
                 View all
             </button>
         </div>
@@ -54,7 +54,7 @@ function Department() {
                     <h3 className=' font-semibold text-indigo-500'>
                         Viewing {Departments.length} departments
                     </h3>
-                    <button className="text-indigo-400 px-3 py-1 flex items-center gap-2 font-bold hover:text-indigo-500 transition">
+                    <button className="text-indigo-400 px-3 py-1 flex items-center gap-2 font-bold hover:text-indigo-500  ">
                         View all <MoveRight size={16} className="inline-block ml-1"/>
                     </button>
                 </div>

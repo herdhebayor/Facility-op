@@ -236,10 +236,10 @@ export default function ReportPage() {
     }}, [error, notice]);
 
   return (
-    <div className="min-h-screen bg-zinc-50 py-3 text-slate-600">
+    <div className="min-h-screen pb-10 bg-slate-100 text-slate-600">
       
-      <main className="mx-auto w-full md:px-8 space-y-5">
-        <section className="overflow-hidden md:rounded-xl bg-slate-200 p-4 mt-6">
+      <main className="mx-auto p-4 w-full md:px-8 space-y-4 ">
+        <section className="overflow-hidden shadow-md rounded-xl bg-white p-4 ">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-400">Facility operations</p>
@@ -247,11 +247,11 @@ export default function ReportPage() {
               <p className="mt-2 max-w-xl text-sm leading-6 text-slate-400">{audience}. Incoming reports and replies appear below.</p>
             </div>
             <div className="flex gap-3">
-              <div className="rounded-2xl border border-white/10 bg-white/20 px-4 py-3">
+              <div className="rounded-2xl border border-white/10 bg-slate-100 px-4 py-3">
                 <p className="text-2xl font-bold">{incomingReports.length}</p>
                 <p className="text-xs text-slate-400">In your inbox</p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/20 px-4 py-3">
+              <div className="rounded-2xl border border-white/10 bg-slate-100 px-4 py-3">
                 <p className="text-2xl font-bold">{sentReports.length}</p>
                 <p className="text-xs text-slate-400">Sent by you</p>
               </div>
@@ -266,7 +266,8 @@ export default function ReportPage() {
           </div>
         )}
 
-        {!loading && me?.role !== "admin" && <section className="p-4 md:px-0 ">
+        {!loading && me?.role !== "admin" 
+        && <section className="p-4 bg-white rounded-xl shadow-md">
           <div className="mb-5 flex items-start gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600"><Plus className="h-5 w-5" /></div>
             <div>
@@ -291,7 +292,7 @@ export default function ReportPage() {
                   <label className="mb-1.5 block text-sm font-medium text-slate-700">Report type</label>
                   <div className="flex flex-wrap gap-2">
                     {allowedTypes.map((option) => (
-                      <button type="button" key={option} onClick={() => setType(option)} className={`rounded-xl border px-3 py-2.5 text-xs font-semibold capitalize transition ${type === option ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"}`}>
+                      <button type="button" key={option} onClick={() => setType(option)} className={`rounded-xl border px-3 py-2.5 text-xs font-semibold capitalize   ${type === option ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"}`}>
                         {option.replace("_", " ")}
                       </button>
                     ))}
@@ -319,7 +320,7 @@ export default function ReportPage() {
               </div>
               <div className="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs text-slate-500">This report will be routed to {me?.role === "staff" ? "your location manager" : "an administrator"}.</p>
-                <button type="submit" disabled={saving || locations.length === 0} className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
+                <button type="submit" disabled={saving || locations.length === 0} className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white   hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
                   <Send className="h-4 w-4" />{saving ? "Sending..." : "Send report"}
                 </button>
               </div>
@@ -327,7 +328,7 @@ export default function ReportPage() {
           )}
         </section>}
 
-        <section className="p-4 md:px-0">
+        <section className="p-4 bg-white rounded-xl shadow-md">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-600"><Inbox className="h-5 w-5" /></div>
@@ -338,7 +339,7 @@ export default function ReportPage() {
             </div>
             <div className="inline-flex rounded-xl bg-slate-100 p-1 shadow-md">
               {(["all", "inbox", "sent"] as const).map((option) => (
-                <button type="button" key={option} onClick={() => setFilter(option)} className={`rounded-lg px-3 py-2 cursor-pointer text-xs font-semibold capitalize transition ${filter === option ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
+                <button type="button" key={option} onClick={() => setFilter(option)} className={`rounded-lg px-3 py-2 cursor-pointer text-xs font-semibold capitalize   ${filter === option ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
                   {option === "inbox" ? `Inbox${incomingReports.length ? ` · ${incomingReports.length}` : ""}` : option === "sent" ? "Sent" : "All"}
                 </button>
               ))}
@@ -358,7 +359,7 @@ export default function ReportPage() {
               {visibleReports.map((report) => {
                 const incoming = canReply(report);
                 return (
-                  <article key={report._id} className="rounded-2xl bg-white shadow-md p-4 sm:p-5">
+                  <article key={report._id} className="rounded-lg bg-zinc-100/10 shadow-md p-4 sm:p-5">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex min-w-0 gap-3">
                         <div className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${report.type === "incident" || report.type === "staff_issue" ? "bg-rose-50 text-rose-600" : "bg-indigo-50 text-indigo-600"}`}>

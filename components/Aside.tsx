@@ -49,6 +49,8 @@ interface MenuItem {
   icon: LucideIcon;
 }
 
+const hiddenRoutes = ['/login', '/register', '/forgot-password'];
+
 function SkeletonBlock({ className = '' }: { className?: string }) {
   return <div className={`animate-pulse rounded-xl py-6 bg-slate-300/70 ${className}`} />;
 }
@@ -56,38 +58,59 @@ function SkeletonBlock({ className = '' }: { className?: string }) {
 function Aside() {
   const pathname = usePathname();
   const router = useRouter();
-  const hiddenRoutes = ['/login', '/register'];
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState<UserType >([]);
-  const [department, setDepartment] = useState<DepartmentType >([]);
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<UserType>({
+    role: 'staff',
+    locationId: '',
+  });
+  const [department, setDepartment] = useState<DepartmentType>({
+  _id: "",
+  name: "",
+  });
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(pathname.startsWith('/settings'));
 
-  const fetchUser = async () => {
-    setLoading(true);
-    try {
-      const [userRes, depRes] = await Promise.all([
-        fetch('/api/auth/me'),
-        fetch('/api/departments'),
-      ]);
-      if (!userRes.ok || !depRes.ok) {
-        throw new Error('Can not fecth user');
-      }
-      const userData = (await userRes.json()) as UserResponse;
-      const depData = (await depRes.json()) as DepartmentsResponse;
-      const userDep = depData.departments.find((dep) => userData.user.department === dep.name) ?? null;
-      setUser(userData.user);
-      setDepartment(userDep);
-    } catch (err) {
-      throw new Error(err instanceof Error ? err.message : 'An error occurred while fetching user data.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchUser();
-  }, []);
+    if (hiddenRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`))) {
+      return;
+    }
+
+    let active = true;
+    async function fetchUser() {
+      try {
+        const [userRes, depRes] = await Promise.all([
+          fetch('/api/auth/me'),
+          fetch('/api/departments'),
+        ]);
+        if (userRes.status === 401 || depRes.status === 401) {
+          router.replace('/login');
+          return;
+        }
+        if (!userRes.ok) throw new Error(`Unable to fetch user data (${userRes.status}).`);
+        if (!depRes.ok) throw new Error(`Unable to fetch departments (${depRes.status}).`);
+        const userData = (await userRes.json()) as UserResponse;
+        const depData = (await depRes.json()) as DepartmentsResponse;
+        const userDep = depData.departments.find((dep) => userData.user.department === dep.name);
+        if (active) {
+          setUser(userData.user);
+          setLoadError('');
+          if (userDep) setDepartment(userDep);
+        }
+      } catch (err) {
+        if (active) {
+          setLoadError(err instanceof Error ? err.message : 'An error occurred while fetching user data.');
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    void fetchUser();
+    return () => {
+      active = false;
+    };
+  }, [pathname, router]);
 
   useEffect(() => {
     const handleToggle = () => setIsOpen((prev) => !prev);
@@ -102,7 +125,7 @@ function Aside() {
     };
   }, []);
 
-  if (hiddenRoutes.some((route) => pathname === route || pathname.startsWith(route))) {
+  if (hiddenRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`))) {
     return null;
   }
 
@@ -122,12 +145,12 @@ function Aside() {
 
   const menuItems = isAdminRoute
     ? [
-        { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-        { name: 'Manage Locations', path: '/location', icon: MapPin },
-        { name: 'Manage Staff', path: '/staff', icon: UserRoundGroup },
-        { name: 'Connect', path: '/chat', icon: MessageSquareText },
-        { name: 'Reports', path: '/report', icon: ClipboardMinus },
-        { name: 'Me', path: '/me', icon: UserRound },
+        { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+        { name: 'Manage Locations', path: '/admin/location', icon: MapPin },
+        { name: 'Manage Staff', path: '/admin/staff', icon: UserRoundGroup },
+        { name: 'Connect', path: '/admin/chat', icon: MessageSquareText },
+        { name: 'Reports', path: '/admin/report', icon: ClipboardMinus },
+        { name: 'Me', path: '/admin/me', icon: UserRound },
       ]
     : isManagerRoute
       ? [
@@ -154,7 +177,7 @@ function Aside() {
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-slate-950/50 transition-opacity duration-200 md:hidden ${
+        className={`fixed inset-0 z-40 bg-slate-950/50  -opacity duration-200 md:hidden ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsOpen(false)}
@@ -162,7 +185,7 @@ function Aside() {
 
       <aside
         className={[
-          'fixed h-screen min-h-155 overflow-hidden max-h-250 inset-y-0 left-0 z-50 w-80 border-r border-slate-50/10 bg-white px-4 py-5 text-slate-800 shadow-xl transition-transform duration-200 md:static md:translate-x-0',
+          'fixed h-screen min-h-155 overflow-hidden max-h-250 inset-y-0 left-0 z-50 w-80 border-r border-slate-50/10 bg-white px-4 py-5 text-slate-800 shadow-xl  -transform duration-200 md:static md:translate-x-0',
           isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
         ].join(' ')}
       >
@@ -192,6 +215,8 @@ function Aside() {
             <SkeletonBlock className="h-10 w-[20%]" />
             <SkeletonBlock className="h-10 w-[30%]" />
           </div>
+        ) : loadError ? (
+          <p role="alert" className="rounded-xl bg-rose-50 p-3 text-sm text-rose-700">{loadError}</p>
         ) : (
           <>
         <nav className="flex max-h-[calc(100vh-9rem)] flex-col gap-2 overflow-y-auto pb-4">
@@ -205,7 +230,7 @@ function Aside() {
                 href={item.path}
                 onClick={() => setIsOpen(false)}
                 className={[
-                  'flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition outline-0',
+                  'flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium   outline-0',
                   active ? 'bg-linear-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-500/20' : 'text-slate-600 hover:text-white hover:bg-slate-900',
                 ].join(' ')}
               >
@@ -219,24 +244,24 @@ function Aside() {
               type="button"
               onClick={() => setSettingsOpen((open) => !open)}
               aria-expanded={settingsOpen}
-              className={`flex w-full items-center gap-3 rounded-xl cursor-pointer px-4 py-3 text-left text-base font-medium transition outline-0 ${pathname.startsWith('/settings') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:text-white hover:bg-slate-900'}`}
+              className={`flex w-full items-center gap-3 rounded-xl cursor-pointer px-4 py-3 text-left text-base font-medium   outline-0 ${pathname.startsWith('/settings') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:text-white hover:bg-slate-900'}`}
             >
               <Settings size={18} />
               <span className="flex-1">Settings</span>
-              <ChevronDown size={16} className={`transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={16} className={` -transform ${settingsOpen ? 'rotate-180' : ''}`} />
             </button>
             {settingsOpen && <div className="ml-5 mt-1 flex flex-col gap-1 border-l border-slate-200 pl-3">
               <Link
                 href="/settings/profile"
                 onClick={() => setIsOpen(false)}
-                className={`rounded-lg px-3 py-2 text-sm transition ${pathname === '/settings/profile' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-900 hover:text-white'}`}
+                className={`rounded-lg px-3 py-2 text-sm   ${pathname === '/settings/profile' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-900 hover:text-white'}`}
               >
                 Profile settings
               </Link>
               <Link
                 href="/settings/preferences"
                 onClick={() => setIsOpen(false)}
-                className={`rounded-lg px-3 py-2 text-sm transition ${pathname === '/settings/preferences' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-900 hover:text-white'}`}
+                className={`rounded-lg px-3 py-2 text-sm   ${pathname === '/settings/preferences' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-900 hover:text-white'}`}
               >
                 Site preferences
               </Link>
@@ -248,7 +273,7 @@ function Aside() {
           <button
             type="button"
             onClick={handleLogout}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium cursor-pointer text-slate-600 transition hover:border-indigo-400/40 "
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium cursor-pointer text-slate-600   hover:border-indigo-400/40 "
           >
             <LogOut size={16} />
             Logout

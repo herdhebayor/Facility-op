@@ -63,14 +63,14 @@ function DepartmentForm({ setDepartmentDialogOpen, user, locations, onCreated }:
     }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
-            <section role="dialog" aria-modal="true" aria-labelledby="department-dialog-title" className="w-full max-w-lg rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl">
+            <section role="dialog" aria-modal="true" aria-labelledby="department-dialog-title" className="w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-2xl">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">Profile setup</p>
                   <h2 id="department-dialog-title" className="mt-1 text-xl font-semibold text-slate-900">Choose your department</h2>
                   <p className="mt-2 text-sm text-slate-500">Pick an existing department or add a new one.</p>
                 </div>
-                <button type="button" onClick={() => setDepartmentDialogOpen(false)} aria-label="Close department form" className="rounded-xl border border-slate-200 p-2 text-slate-500 hover:bg-slate-50"><X className="h-4 w-4" /></button>
+                <button type="button" onClick={() => setDepartmentDialogOpen(false)} aria-label="Close department form" className="rounded-xl  cursor-pointer border-slate-200 p-2 text-slate-500 hover:bg-slate-50"><X className="h-4 w-4" /></button>
               </div>
               <form onSubmit={handleSubmit} className="mt-5 space-y-4">
                 

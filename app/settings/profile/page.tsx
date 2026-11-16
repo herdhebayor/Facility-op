@@ -112,7 +112,7 @@ export default function ProfileSettingsPage() {
               </label>
             </div>
           </section>
-          <button type="submit" disabled={saving || loading} className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
+          <button type="submit" disabled={saving || loading} className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white   hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
             {saving ? "Saving…" : "Save changes"}
           </button>
         </form>

@@ -303,6 +303,9 @@ export default function ChatPage() {
     return participantsOf(conversation);
   }
 
+
+
+
   async function startConversation(body: { recipientIds?: string[]; groupType?: string }) {
     try {
       setError("");
@@ -318,6 +321,29 @@ export default function ChatPage() {
       setSelectedConversationId(conversation._id);
     } catch (startError) {
       setError(startError instanceof Error ? startError.message : "Unable to open chat.");
+    }
+  }
+
+  async function removeConversation(conversation: Conversation) {
+    if (working) return;
+    setWorking(true);
+    setError("");
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "remove-conversation", conversationId: conversation._id }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unable to remove this conversation.");
+      setConversations((current) => current.filter((item) => item._id !== conversation._id));
+      if (selectedConversationId === conversation._id) setSelectedConversationId("");
+      setNotice("Conversation removed from your list. The other participants keep their access.");
+      await loadChat();
+    } catch (removeError) {
+      setError(removeError instanceof Error ? removeError.message : "Unable to remove this conversation.");
+    } finally {
+      setWorking(false);
     }
   }
 
@@ -414,11 +440,11 @@ export default function ChatPage() {
       : "";
 
   return (
-    <main className="h-[calc(100vh-8.5rem)] w-full bg-slate-50 px-3 py-2 md:pb-6 text-slate-700 sm:px-5 ">
-      <div className="mx-auto w-full md:mt-0 flex flex-col gap-4 h-full overflow-y-hidden lg:flex-row">
+    <main className="h-[calc(100vh-100px)] w-full bg-slate-100 overflow-y-hidden p-4 text-slate-700 md:px-8 ">
+      <div className="mx-auto w-full flex flex-col gap-4 h-full  lg:flex-row">
         {error && <div role="alert" className="fixed left-1/2 top-24 z-40 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 shadow-lg">{error}</div>}
         {notice && <div role="status" className="fixed left-1/2 top-24 z-40 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 shadow-lg">{notice}<button type="button" onClick={() => setNotice("")} className="ml-3 font-semibold underline cursor-pointer">Dismiss</button></div>}
-        <aside className={`w-full shrink-0 rounded-3xl min-h-full overflow -hidden border border-slate-200 bg-white p-4 shadow-sm lg:block lg:w-80 lg:overflow-y-auto ${selectedConversationId ? "hidden" : "block"}`}>
+        <aside className={`w-full shrink-0 rounded-xl h-[calc(100%-60px)] overflow-hidden  bg-white p-4 shadow-sm lg:block lg:w-80 lg:overflow-y-auto ${selectedConversationId ? "hidden" : "block"}`}>
           <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
               <MessageSquareText className="h-5 w-5" />
@@ -432,7 +458,7 @@ export default function ChatPage() {
             Messages are saved to your account and available whenever you are signed in. Message content is stored by the service and is not end-to-end encrypted.
           </div>
 
-          {isAdmin && <button type="button" onClick={() => void startConversation({ groupType: "all-managers" })} className="mt-4 flex w-full items-center gap-2 rounded-xl bg-indigo-600 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700"><Users className="h-4 w-4" />Broadcast to all managers</button>}
+          {isAdmin && <button type="button" onClick={() => void startConversation({ groupType: "all-managers" })} className="mt-4 flex w-full items-center gap-2 rounded-xl bg-indigo-600 px-3 py-2.5 text-sm font-semibold text-white   hover:bg-indigo-700"><Users className="h-4 w-4" />Broadcast to all managers</button>}
 
           <div className="mt-5 ">
             <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-slate-400">Your conversations</p>
@@ -440,19 +466,27 @@ export default function ChatPage() {
               {conversations.map((conversation) => {
                 const participants = participantsOf(conversation);
                 const title = conversation.type === "group" ? conversation.name : participants.find((participant) => participant._id !== me?._id)?.name || "Direct chat";
-                return <button key={conversation._id} type="button" onClick={() => setSelectedConversationId(conversation._id)} className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition ${selectedConversationId === conversation._id ? "bg-indigo-50 text-indigo-800" : "text-slate-600 hover:bg-slate-50"}`}><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-500"><MessageSquareText className="h-4 w-4" /></span><span className="min-w-0 flex-1 truncate font-medium">{title}</span></button>;
+                return <div key={conversation._id} className={`flex items-center rounded-xl text-sm ${selectedConversationId === conversation._id ? "bg-indigo-50 text-indigo-800" : "text-slate-600 hover:bg-slate-50"}`}>
+                  <button type="button" onClick={() => setSelectedConversationId(conversation._id)} className="flex min-w-0 flex-1 items-center gap-3 px-3 py-2.5 text-left">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500"><MessageSquareText className="h-4 w-4" /></span>
+                    <span className="min-w-0 flex-1 truncate font-medium">{title}</span>
+                  </button>
+                  <button type="button" title="Remove from my conversations" aria-label={`Remove ${title} from my conversations`} disabled={working} onClick={() => void removeConversation(conversation)} className="mr-2 rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600 disabled:opacity-50">
+                    <Trash className="h-4 w-4" />
+                  </button>
+                </div>;
               })}
               {!conversations.length && <p className="px-2 py-2 text-xs text-slate-400">Your conversations will appear here.</p>}
             </div>
           </div>
 
-          <div className="mt-5 border-t border-slate-100 pt-4 h-full">
+          <div className="mt-5 border-t border-slate-100 pt-4 h-[calc(100%-480px)]">
             <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-slate-400">Available contacts</p>
             <div className="space-y-1 overflow-y-auto">
               {contacts.map((contact) => {
                 const hasNewMessage = unreadContactIds.has(contact._id);
                 return (
-                  <button key={contact._id} type="button" onClick={() => void selectContact(contact)} className="flex w-full items-center gap-3 rounded-xl px-3 cursor-pointer py-2.5 text-left transition hover:bg-slate-50">
+                  <button key={contact._id} type="button" onClick={() => void selectContact(contact)} className="flex w-full items-center gap-3 rounded-xl px-3 cursor-pointer py-2.5 text-left   hover:bg-slate-50">
                     <span className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold ${contact.role === "admin" ? "bg-amber-50 text-amber-700" : contact.role === "manager" ? "bg-violet-50 text-violet-700" : "bg-indigo-50 text-indigo-700"}`}>{contact.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-medium text-slate-800">{contact.name}</span>
@@ -467,10 +501,10 @@ export default function ChatPage() {
           </div>
         </aside>
 
-        <section className={`h-full min-w-0 flex-1 flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm lg:flex lg:min-h-0 ${selectedConversationId ? "flex" : "hidden lg:flex"}`}>
+        <section className={`max-h-[calc(100%-70px)] min-w-0 flex-1 flex-col overflow-hidden rounded-xl b bg-white shadow-sm lg:flex lg:min-h-0 ${selectedConversationId ? "flex" : "hidden lg:flex"}`}>
           <header className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3.5 sm:px-6">
             <div className="flex min-w-0 items-center gap-3">
-              {selectedConversationId && <button type="button" onClick={() => setSelectedConversationId("")} title="Back to contacts" aria-label="Back to contacts" className="rounded-xl p-2 text-slate-500 transition cursor-pointer hover:bg-slate-100 lg:hidden"><ArrowLeft className="h-5 w-5" /></button>}
+              {selectedConversationId && <button type="button" onClick={() => setSelectedConversationId("")} title="Back to contacts" aria-label="Back to contacts" className="rounded-xl p-2 text-slate-500   cursor-pointer hover:bg-slate-100 lg:hidden"><ArrowLeft className="h-5 w-5" /></button>}
               <div className="min-w-0">
                 <p className="text-xs font-medium text-slate-400">
                   {selectedConversation?.type === "group" ? `${conversationParticipants.length} participants` : "Available while signed in"}
@@ -484,8 +518,8 @@ export default function ChatPage() {
             <span className="shrink-0 rounded-full bg-indigo-50 px-2.5 py-1.5 text-xs font-semibold text-indigo-700">Saved chat</span>
           </header>
 
-          <div className="flex-1 space-y-4 overflow-y-scroll bg-slate-50/70 p-4 sm:p-6">
-            {!selectedConversation && <div className="flex h-full min-h-56 flex-col items-center justify-center text-center">
+          <div className="flex-1  space-y-4 overflow-y-scroll bg-zinc-100 p-4 ">
+            {!selectedConversation && <div className="flex h-full min-h-56  flex-col items-center justify-center text-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-indigo-500 shadow-sm"><MessageSquareText className="h-6 w-6" /></span>
               <h3 className="mt-4 font-semibold text-slate-800">Your conversations, kept private</h3>
               <p className="mt-1 max-w-sm text-sm text-slate-500">Choose an eligible contact or select one of your existing conversations to get started.</p>
@@ -508,8 +542,8 @@ export default function ChatPage() {
                     const matching = messageReactions.filter((reaction) => reaction.emoji === emoji);
                     return matching.length ? <span key={emoji} className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-xs text-slate-600">{emoji} {matching.length}</span> : null;
                   })}</div>}
-                  {openMenuId === message._id && <div className={`mt-1 absolute top-full flex max-w-full flex-col-reverse items-center gap-1 rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm ${mine ? "justify-end right-0" : "justify-start left-0"}`}>
-                    <div className="flex gap-1">
+                  {openMenuId === message._id && <div className={`mt-1 flex items-center gap-2  ${mine ? "justify-end right-0" : "justify-start left-0"}`}>
+                    <div className="flex gap-2">
                       {reactions.map((emoji) => <button key={emoji} type="button" title={`React with ${emoji}`} onClick={() => void updateMessage("react", message, { emoji })} className="cursor-pointer text-sm hover:bg-slate-100" aria-label={`React ${emoji}`}>{emoji}</button>)}
                     </div>
                     <div className="flex gap-2">
@@ -518,7 +552,8 @@ export default function ChatPage() {
                     {mine && withinEditWindow && <button type="button" title="Unsend for everyone" onClick={() => void updateMessage("delete-for-everyone", message)} className="cursor-pointer text-xs hover:text-slate-700"><RotateCcw className="h-4 w-4" /></button>}
                     <button type="button" title="Share message" onClick={() => void shareMessage(message)} className="cursor-pointer text-xs hover:text-indigo-700"><Forward className="h-4 w-4" /></button>
                     </div>
-                  </div>}
+                  </div>
+                  }
                 </div>
               </article>;
             })}
@@ -527,7 +562,7 @@ export default function ChatPage() {
           <form onSubmit={(event) => void sendMessage(event)} className="border-t-2 border-slate-100 bg-slate-50/70 p-3 sm:p-4">
             <div className="flex items-center gap-2 rounded-2xl border border-slate-200 shadow-sm bg-slate-50 p-2">
               <input value={draft} autoComplete="off" autoFocus autoCorrect="true" autoCapitalize="true" onChange={(event) => setDraft(event.target.value)} maxLength={8000} disabled={!selectedConversation || working} placeholder={selectedConversation ? `Message ${selectedTitle}…` : "Select a conversation to start"} className="min-w-0 flex-1 bg-transparent px-2 py-2 text-sm text-slate-800 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed" />
-              <button type="submit" disabled={!draft.trim() || !selectedConversation || working} className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"><Send className="h-4 w-4" /><span className="hidden sm:inline">Send</span></button>
+              <button type="submit" disabled={!draft.trim() || !selectedConversation || working} className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white   hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"><Send className="h-4 w-4" /><span className="hidden sm:inline">Send</span></button>
             </div>
             <p className="mt-1.5 px-1 text-[10px] text-slate-400">Messages are saved to your account · polling for new messages every 5 seconds</p>
           </form>

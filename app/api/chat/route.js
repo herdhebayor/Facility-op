@@ -93,7 +93,11 @@ export async function GET() {
       .select("_id name role locationId")
       .sort({ name: 1 })
       .lean(),
-    Conversation.find({ companyId: session.companyId, participants: session.userId })
+    Conversation.find({
+      companyId: session.companyId,
+      participants: session.userId,
+      hiddenFor: { $ne: session.userId },
+    })
       .populate("participants", "_id name role locationId")
       .sort({ lastMessageAt: -1 })
       .lean(),
@@ -207,6 +211,10 @@ export async function POST(req) {
           lastMessageAt: new Date(),
         });
       }
+      if (conversation.hiddenFor.some((userId) => normalizeId(userId) === String(session.userId))) {
+        conversation.hiddenFor = conversation.hiddenFor.filter((userId) => normalizeId(userId) !== String(session.userId));
+        await conversation.save();
+      }
 
       const populatedConversation = await Conversation.findById(conversation._id)
         .populate("participants", "_id name role locationId")
@@ -241,12 +249,23 @@ export async function POST(req) {
         text: body.text.trim(),
         seenBy: [session.userId],
       });
+      conversation.hiddenFor = [];
       conversation.lastMessage = body.text.trim().slice(0, 160);
       conversation.lastMessageAt = new Date();
       await conversation.save();
 
       const populatedMessage = await Message.findById(message._id).populate("senderId", "_id name role").lean();
       return NextResponse.json({ message: populatedMessage }, { status: 201 });
+    }
+
+    if (body.action === "remove-conversation") {
+      const conversation = await loadConversation(body.conversationId, session);
+      if (!conversation) return NextResponse.json({ error: "Chat not found" }, { status: 404 });
+      if (!conversation.hiddenFor.some((userId) => normalizeId(userId) === String(session.userId))) {
+        conversation.hiddenFor.push(session.userId);
+        await conversation.save();
+      }
+      return NextResponse.json({ success: true });
     }
 
     if (body.action === "edit" || body.action === "delete-for-everyone" || body.action === "delete-for-me" || body.action === "react") {

@@ -96,7 +96,7 @@ export default function InviteStaffForm({
             type="button"
             onClick={onClose}
             aria-label="Close invite form"
-            className="rounded-full border border-zinc-200 p-2 text-slate-500 transition hover:bg-zinc-100"
+            className="rounded-full border cursor-pointer border-zinc-200 p-2 text-slate-500 hover:bg-zinc-100"
           >
             <X className="h-4 w-4" />
           </button>
@@ -188,7 +188,7 @@ export default function InviteStaffForm({
                   id="invite-department"
                   value={form.department}
                   onChange={(event) => setForm((current) => ({ ...current, department: event.target.value }))}
-                  className="min-w-0 flex-1 cursor-pointer rounded-xl border border-indigo-100 bg-indigo-50/50 px-3 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                  className="min-w-0 flex-1 cursor-pointer rounded-xl border border-indigo-100 bg-indigo-50/50 px-3 py-3 text-sm text-slate-900 outline-none   focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                   required
                 >
                   <option value="">Select department</option>
@@ -199,7 +199,7 @@ export default function InviteStaffForm({
                 <input
                   value={newDepartmentName}
                   onChange={(event) => setNewDepartmentName(event.target.value)}
-                  className="min-w-0 flex-1 rounded-xl border border-violet-100 bg-violet-50/50 px-3 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100 sm:max-w-48"
+                  className="min-w-0 flex-1 rounded-xl border border-violet-100 bg-violet-50/50 px-3 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none   focus:border-violet-400 focus:ring-2 focus:ring-violet-100 sm:max-w-48"
                   placeholder="Add new department"
                   aria-label="New department name"
                 />
@@ -207,7 +207,7 @@ export default function InviteStaffForm({
                   type="button"
                   onClick={() => void handleCreateDepartment()}
                   disabled={!newDepartmentName.trim() || isCreatingDepartment}
-                  className="rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white   hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isCreatingDepartment ? "Adding..." : "Add"}
                 </button>
@@ -237,7 +237,7 @@ export default function InviteStaffForm({
                 <span>{passwordStrength.label}</span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200">
-                <div className={`h-full rounded-full transition-all ${passwordStrength.color}`} style={{ width: passwordStrength.width }} />
+                <div className={`h-full rounded-full  -all ${passwordStrength.color}`} style={{ width: passwordStrength.width }} />
               </div>
             </div>
           </div>
@@ -245,13 +245,13 @@ export default function InviteStaffForm({
           {error && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
 
           <div className="flex items-center justify-end gap-3 pt-2">
-            <button type="button" onClick={onClose} className="rounded-xl border border-zinc-200 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-zinc-100">
+            <button type="button" onClick={onClose} className="rounded-xl border border-zinc-200 px-4 py-2.5 text-sm text-slate-600   hover:bg-zinc-100">
               Cancel
             </button>
             <button
               type="submit"
               disabled={creating || (!fixedLocation && locations.length === 0)}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white  -slate-800 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Plus className="h-4 w-4" />
               {creating ? "Inviting..." : "Create invite"}

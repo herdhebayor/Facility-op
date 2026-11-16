@@ -148,16 +148,16 @@ export default function RoutineChecksPage() {
   if (!department) return <main className="min-h-screen bg-slate-50 p-6"><section className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 text-center"><ClipboardCheck className="mx-auto h-10 w-10 text-indigo-500" /><h1 className="mt-3 text-xl font-bold text-slate-900">No department routine found</h1><p className="mt-2 text-sm text-slate-500">Ask your manager to add a daily checklist for your department.</p><button onClick={() => router.push("/dashboard")} className="mt-5 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Back to dashboard</button></section></main>;
 
   return (
-    <main className="min-h-screen bg-slate-50 py-6 md:px-8 text-slate-700">
-      <div className="mx-auto w-full space-y-6">
-        <header className="overflow-hidden md:rounded-xl bg-linear-to-br from-emerald-700 via-teal-650 to-emerald-600 p-6 text-white shadow-lg md:p-8">
+    <main className="min-h-screen bg-slate-100 pb-10 md:px-8 text-slate-600">
+      <div className="mx-auto w-full space-y-4 p-4">
+        <header className="overflow-hidden rounded-xl bg-linear-to-br from-emerald-700 via-teal-650 to-emerald-600 p-6 text-white shadow-lg md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-100">Daily routine check</p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">{department.name}</h1>
           <p className="mt-2 flex items-center gap-2 text-sm text-emerald-50"><MapPin className="h-4 w-4" />{department.locationName}</p>
           <div className="mt-6 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
             <div>
               <div className="mb-2 flex justify-between text-xs text-emerald-50"><span>Today&apos;s progress</span><span>{totals.completed}/{totals.total} complete</span></div>
-              <div className="h-2.5 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-white transition-all" style={{ width: `${totals.total ? totals.completed / totals.total * 100 : 0}%` }} /></div>
+              <div className="h-2.5 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-white  -all" style={{ width: `${totals.total ? totals.completed / totals.total * 100 : 0}%` }} /></div>
             </div>
             <p className="flex items-center gap-1.5 text-xs text-emerald-50"><Clock3 className="h-3.5 w-3.5" />Daily reset at 6:00 a.m. · {department.locationTimezone}</p>
           </div>
@@ -173,7 +173,7 @@ export default function RoutineChecksPage() {
             return submitterId === userId;
           });
           return (
-            <section key={routine._id} className="  ">
+            <section key={routine._id} className=" p-4 bg-white rounded-xl shadow-md">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div><h2 className="text-xl font-bold text-slate-900">{routine.name}</h2><p className="mt-1 text-sm text-slate-500">Record each check and note any issue for your manager.</p></div>
                 <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">{completed} / {routine.tasks.length} complete</span>
@@ -184,9 +184,9 @@ export default function RoutineChecksPage() {
                   const updateKey = `${routine._id}:${task._id}`;
                   const checked = Boolean(completion?.completedAt);
                   return (
-                    <li key={task._id} className={`md:rounded-xl  p-4 transition ${checked ? "bg-emerald-500/70" : "border-slate-200 border-b bg-zinc-100"}`}>
+                    <li key={task._id} className={`rounded-xl  p-4   ${checked ? "bg-emerald-500/70" : "border-slate-200 border-b bg-slate-100"}`}>
                       <div className="flex items-start gap-3">
-                        <button type="button" disabled={savingTask === updateKey} onClick={() => void updateTask(routine, task, { completed: !checked })} aria-label={checked ? `Mark ${task.title} incomplete` : `Mark ${task.title} complete`} className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border transition ${checked ? "border-emerald-600 bg-emerald-600 text-white" : "border-slate-300 bg-white text-transparent hover:border-emerald-500"} disabled:opacity-50`}>
+                        <button type="button" disabled={savingTask === updateKey} onClick={() => void updateTask(routine, task, { completed: !checked })} aria-label={checked ? `Mark ${task.title} incomplete` : `Mark ${task.title} complete`} className={`mt-0.5 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-lg border   ${checked ? "border-emerald-600 bg-emerald-600 text-white" : "border-slate-300 bg-white text-transparent hover:border-emerald-500"} disabled:opacity-50`}>
                           <Check className="h-4 w-4" />
                         </button>
                         <div className="min-w-0 flex-1">
@@ -201,7 +201,7 @@ export default function RoutineChecksPage() {
                           <textarea id={`issue-${updateKey}`} maxLength={500} rows={2} value={issues[updateKey] ?? completion?.issueReport ?? ""} onChange={(event) => setIssues((current) => ({ ...current, [updateKey]: event.target.value }))} onBlur={(event) => {
                             const value = event.currentTarget.value;
                             if (value !== (completion?.issueReport || "")) void updateTask(routine, task, { issueReport: value });
-                          }} placeholder="Briefly describe a problem, damage, or follow-up needed…" className="mt-1.5 w-full resize-none overflow-y-scroll rounded-lg border border-slate-200/20 bg-zinc-100 px-3 py-2.5 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100" />
+                          }} placeholder="Briefly describe a problem, damage, or follow-up needed…" className="mt-1.5 w-full resize-none overflow-y-scroll rounded-lg border border-slate-200/20 bg-slate-100/10 px-3 py-2.5 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100" />
                         </>)}
                         </div>
                         {savingTask === updateKey && <span className="text-xs text-slate-400">Saving…</span>}
@@ -212,7 +212,7 @@ export default function RoutineChecksPage() {
               </ol>
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 p-4 ">
                 <p className="text-xs text-slate-500">{submitted ? `Submitted ${new Date(submitted.submittedAt).toLocaleString()}` : "Submit once every checklist item is complete."}</p>
-                <button type="button" disabled={completed !== routine.tasks.length || Boolean(submitted) || Boolean(savingTask) || submittingRoutine === routine._id} onClick={() => void submitRoutine(routine)} className="inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-emerald-700 to-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-300">
+                <button type="button" disabled={completed !== routine.tasks.length || Boolean(submitted) || Boolean(savingTask) || submittingRoutine === routine._id} onClick={() => void submitRoutine(routine)} className="inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-emerald-700 to-emerald-600 px-4 py-2.5 text-sm font-semibold text-white   hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-300">
                   {submitted ? <Check className="h-4 w-4" /> : <Send className="h-4 w-4" />}{submittingRoutine === routine._id ? "Submitting…" : submitted ? "Submitted to manager" : "Submit routine"}
                 </button>
               </div>

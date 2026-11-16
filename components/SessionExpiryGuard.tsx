@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation"; 
-import { Clock3, LogIn } from "lucide-react";
+import { Clock3 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function SessionExpiryGuard() {
@@ -12,10 +12,6 @@ export default function SessionExpiryGuard() {
   const router = useRouter()
 
   useEffect(() => {
-    if (pathname === "/login" || pathname === "/register") {
-      return;
-    }
-
     let active = true;
     async function verifySession() {
       try {
@@ -45,7 +41,7 @@ export default function SessionExpiryGuard() {
     };
   }, [pathname]);
 
-  if (pathname === "/login" || pathname === "/register") return null;
+  // if (pathname === "/login" || pathname === "/register") return null;
   if (!sessionExpired && !connectionError) return null;
 
   if (connectionError && !sessionExpired) {
@@ -60,15 +56,15 @@ export default function SessionExpiryGuard() {
 
   return (
     <div className="fixed inset-0 z-200 flex items-center justify-center bg-zinc-50 px-4 py-6 backdrop-blur-sm">
-      <section role="alertdialog" aria-modal="true" aria-labelledby="session-expired-title" className="w-full max-w-md rounded-[28px] border border-slate-200 bg-white p-7 text-center shadow-2xl">
+      <section role="alertdialog" aria-modal="true" aria-labelledby="session-expired-title" className="w-full max-w-md rounded-xl bg-white p-7 text-center shadow-2xl">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
           <Clock3 className="h-7 w-7" />
         </div>
         <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">Session ended</p>
         <h2 id="session-expired-title" className="mt-2 text-2xl font-bold text-slate-900">Please sign in again</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">Your session has expired for your security. Sign in to continue working.</p>
-        <button  onClick={()=> router.push('/login')} className="mt-6 cursor-pointer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
-          <LogIn className="h-4 w-4" /> Go to login
+        <button  onClick={()=> {setSessionExpired(false), setConnectionError(false)}} className="mt-6 cursor-pointer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white   hover:bg-indigo-700">
+          Close
         </button>
       </section>
     </div>
