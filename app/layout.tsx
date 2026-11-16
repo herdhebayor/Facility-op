@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="h-screen min-h-155 overflow-hidden flex flex-col text-md md:text-sm">
         <ThemeProvider>
         <div className="max-w-screen min-h-screen flex relative">
-          <Aside user={user} />
+          <Aside />
           <div className="w-full min-h-screen overflow-auto relative">
             <NavBar user={user} />
             {children}

@@ -9,6 +9,7 @@ export default function SessionExpiryGuard() {
   const pathname = usePathname();
   const [sessionExpired, setSessionExpired] = useState(false);
   const [connectionError, setConnectionError] = useState(false);
+  const [show, setShow] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -19,10 +20,12 @@ export default function SessionExpiryGuard() {
         if (!active) return;
         if (response.status === 401) {
           setSessionExpired(true);
+          setShow(true)
           setConnectionError(false);
         } else if (response.ok) {
           setSessionExpired(false);
           setConnectionError(false);
+          setShow(false)
         } else {
           setConnectionError(true);
         }
@@ -31,7 +34,7 @@ export default function SessionExpiryGuard() {
       }
     }
 
-    void verifySession();
+    if(!show) void verifySession();
     const intervalId = window.setInterval(() => void verifySession(), 60_000);
     window.addEventListener("focus", verifySession);
     return () => {
@@ -42,9 +45,9 @@ export default function SessionExpiryGuard() {
   }, [pathname]);
 
   // if (pathname === "/login" || pathname === "/register") return null;
-  if (!sessionExpired && !connectionError) return null;
+  if (!sessionExpired && !connectionError && !show) return null;
 
-  if (connectionError && !sessionExpired) {
+  if (connectionError && !sessionExpired && !show) {
     return (
       <div role="status" className="fixed bottom-4 right-4 z-100 flex max-w-sm items-center gap-3 rounded-2xl border border-amber-200 bg-white p-4 text-sm text-amber-900 shadow-xl">
         <Clock3 className="h-5 w-5 shrink-0 text-amber-600" />
@@ -63,7 +66,7 @@ export default function SessionExpiryGuard() {
         <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">Session ended</p>
         <h2 id="session-expired-title" className="mt-2 text-2xl font-bold text-slate-900">Please sign in again</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">Your session has expired for your security. Sign in to continue working.</p>
-        <button  onClick={()=> {setSessionExpired(false), setConnectionError(false)}} className="mt-6 cursor-pointer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white   hover:bg-indigo-700">
+        <button  onClick={()=> {setSessionExpired(false), setConnectionError(false), setShow(false)}} className="mt-6 cursor-pointer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white   hover:bg-indigo-700">
           Close
         </button>
       </section>
