@@ -217,8 +217,6 @@ export default function MePage() {
   const inboxCount = user.role === "staff" ? 0 : reports.filter((report) => report.recipientRole === user.role).length;
   const staffLocations = locations.length;
 
-    ("User data:", user);
-
   return (
     <>
     <main className="min-h-screen bg-slate-100    pb-10 text-slate-600">

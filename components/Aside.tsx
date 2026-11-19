@@ -143,16 +143,7 @@ function Aside() {
   const isManagerRoute = role === 'manager'; 
   
 
-  const menuItems = isAdminRoute
-    ? [
-        { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-        { name: 'Manage Locations', path: '/admin/location', icon: MapPin },
-        { name: 'Manage Staff', path: '/admin/staff', icon: UserRoundGroup },
-        { name: 'Connect', path: '/admin/chat', icon: MessageSquareText },
-        { name: 'Reports', path: '/admin/report', icon: ClipboardMinus },
-        { name: 'Me', path: '/admin/me', icon: UserRound },
-      ]
-    : isManagerRoute
+  const menuItems = isManagerRoute
       ? [
           { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
           { name: 'Staff', path: '/staff', icon: UserRoundGroup },
@@ -252,7 +243,7 @@ function Aside() {
             </button>
             {settingsOpen && <div className="ml-5 mt-1 flex flex-col gap-1 border-l border-slate-200 pl-3">
               <Link
-                href="/settings/profile"
+                href="/settings/profile-edit"
                 onClick={() => setIsOpen(false)}
                 className={`rounded-lg px-3 py-2 text-sm   ${pathname === '/settings/profile' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-900 hover:text-white'}`}
               >

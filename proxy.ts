@@ -71,7 +71,7 @@ export default async function proxy(req: NextRequest) {
   if (pathname.startsWith("/admin") && role !== "admin") {
     return NextResponse.redirect(new URL('/unauthorized', req.url));
   }
-  if (!pathname.startsWith("/admin") && role === "admin") {
+  if (!pathname.startsWith("/admin") && !pathname.startsWith("/settings") && role === "admin") {
     return NextResponse.redirect(new URL('/admin/dashboard', req.url));
   }
 
