@@ -148,9 +148,9 @@ export default function RoutineChecksPage() {
   if (!department) return <main className="min-h-screen bg-slate-50 p-6"><section className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 text-center"><ClipboardCheck className="mx-auto h-10 w-10 text-indigo-500" /><h1 className="mt-3 text-xl font-bold text-slate-900">No department routine found</h1><p className="mt-2 text-sm text-slate-500">Ask your manager to add a daily checklist for your department.</p><button onClick={() => router.push("/dashboard")} className="mt-5 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Back to dashboard</button></section></main>;
 
   return (
-    <main className="min-h-screen bg-slate-100 pb-10 md:px-8 text-slate-600">
+    <main className="min-h-screen bg-slate-100 pb-10    text-slate-600">
       <div className="mx-auto w-full space-y-4 p-4">
-        <header className="overflow-hidden rounded-xl bg-linear-to-br from-emerald-700 via-teal-650 to-emerald-600 p-6 text-white shadow-lg md:p-8">
+        <header className="overflow-hidden rounded-xl bg-linear-to-br from-emerald-700 via-teal-650 to-emerald-600 p-6 text-white shadow-lg   ">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-100">Daily routine check</p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">{department.name}</h1>
           <p className="mt-2 flex items-center gap-2 text-sm text-emerald-50"><MapPin className="h-4 w-4" />{department.locationName}</p>

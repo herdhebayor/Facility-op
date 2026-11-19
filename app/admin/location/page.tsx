@@ -12,7 +12,7 @@ export default async function LocationPage() {
     redirect('/login')
   }
 
-  console.log(user)
+    (user)
   return <LocationUi user={user}/>
   
 }

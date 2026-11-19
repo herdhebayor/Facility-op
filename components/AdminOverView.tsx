@@ -112,7 +112,7 @@ const stats = [
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 md:px-8 pb-6">
+    <main className="min-h-screen bg-slate-100 pb-6">
       <header className="p-4">
           <div className="flex flex-col gap-6 bg-white p-4 rounded-xl md:flex-row md:items-end md:justify-between shadow-md ">
             <div>
@@ -231,10 +231,10 @@ const stats = [
                     const isManager = s.role === "manager";
                     const isActive = s.isActive !== false;
                 return(
-                 <article key={s._id} onClick={()=> router.push(`/staff/${s._id}`)} className={`rounded-xl hover:border cursor-pointer bg-slate-100 px-3 py-3 hover:border-indigo-500/40 sm:px-4`}>
-                        <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
+                 <article key={s._id} onClick={()=> router.push(`/staff/${s._id}`)} className={`rounded-xl hover:border cursor-pointer bg-slate-100 px-3 py-3 hover:border-indigo-500/40 `}>
+                        <div className="flex flex-wrap gap-3">
                           <div className="flex min-w-0 flex-1 items-center gap-3">
-                          <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${isManager ? "bg-violet-100 text-violet-700" : "bg-indigo-50 text-indigo-700"}`}>
+                          <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold  bg-indigo-50 text-indigo-700`}>
                             {initials(s.name)}
                           </div>
                           <div className="min-w-fit">

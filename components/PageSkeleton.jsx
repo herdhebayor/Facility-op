@@ -8,7 +8,7 @@ export function DashboardSkeleton() {
       <div className="mx-auto w-full space-y-6">
         <header className="rounded-xl bg-white shadow-md backdrop-blur-sm p-4">
           <div className="flex gap-6 items-center w-full ">
-            <div className="space-y-3 min-h-28 bg-emerald-400 w-full p-4 md:px-8 rounded-xl">
+            <div className="space-y-3 min-h-28 bg-emerald-400 w-full p-4    rounded-xl">
               <SkeletonBlock className="h-3 w-[calc(100%-60px)] max-w-28" />
               <SkeletonBlock className="h-10 w-[calc(100%-60px)] max-w-72" />
               <SkeletonBlock className="h-7 w-[calc(100%-60px)] max-w-72" />
@@ -74,7 +74,7 @@ export function DashboardSkeleton() {
 
 export function ManagerSkeleton() {
   return (
-    <main className="min-h-screen bg-slate-100 px-4 py-5 text-slate-100 md:px-8 xl:px-8">
+    <main className="min-h-screen bg-slate-100 px-4 py-5 text-slate-100    xl:px-8">
       <div className=" space-y-6">
         <header className="rounded-xl bg-white p-5 shadow-xl backdrop-blur-sm">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">

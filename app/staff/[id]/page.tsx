@@ -339,7 +339,7 @@ export default function StaffDetailPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-100 p-5 md:p-8" aria-busy="true" aria-label="Loading staff profile">
+      <main className="min-h-screen bg-slate-100 p-5   " aria-busy="true" aria-label="Loading staff profile">
         <div className="mx-auto space-y-4">
           <div className="h-48 animate-pulse rounded-xl bg-white" />
           <div className="grid gap-5 md:grid-cols-3">
@@ -373,7 +373,7 @@ export default function StaffDetailPage() {
   const latestShift = shifts[0];
 
   return (
-    <main className="min-h-screen bg-slate-100 p-4  pb-10 text-slate-600 md:px-8">
+    <main className="min-h-screen bg-slate-100 p-4  pb-10 text-slate-600   ">
       <div className="mx-auto w-full space-y-4">
         <button
           onClick={() => router.push(backTo)}
@@ -384,7 +384,7 @@ export default function StaffDetailPage() {
 
         <header className="overflow-hidden rounded-xl bg-white shadow-md">
           <div className="h-36 bg-linear-to-br from-slate-950 via-indigo-950 to-indigo-700 md:h-44" />
-          <div className="px-5 pb-6 md:px-8">
+          <div className="px-5 pb-6   ">
             <div className="-mt-12 flex flex-col gap-4 sm:-mt-14 sm:flex-row sm:items-end sm:justify-between">
               <div className="flex min-w-0 items-end gap-4">
                 <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[26px] border-4 border-emerald-300 bg-emerald-300 text-2xl font-bold text-white shadow-sm">
@@ -438,12 +438,12 @@ export default function StaffDetailPage() {
             </div>
           </div>
           {(statusMessage || statusError || copyError) && (
-            <p role={statusError || copyError ? "alert" : "status"} className={`border-t px-5 py-3 text-sm md:px-8 ${statusError || copyError ? "border-rose-100 bg-rose-50 text-rose-700" : "border-emerald-100 bg-emerald-50 text-emerald-700"}`}>
+            <p role={statusError || copyError ? "alert" : "status"} className={`border-t px-5 py-3 text-sm    ${statusError || copyError ? "border-rose-100 bg-rose-50 text-rose-700" : "border-emerald-100 bg-emerald-50 text-emerald-700"}`}>
               {statusError || copyError || statusMessage}
             </p>
           )}
           {staff.isActive === false && staff.suspensionReason && (
-            <div className="border-t border-rose-100 bg-rose-50 px-5 py-3 text-sm text-rose-700 md:px-8">
+            <div className="border-t border-rose-100 bg-rose-50 px-5 py-3 text-sm text-rose-700   ">
               Account note: {staff.suspensionReason}
             </div>
           )}

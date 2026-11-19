@@ -73,7 +73,7 @@ function getMonthlyTaskCounts(jobs: LocationJob[], now = new Date()): MonthlyTas
 
 function LocationPageSkeleton() {
   return (
-    <main className="min-h-screen bg-slate-100 md:px-8 p-4 "  aria-busy="true" aria-label="Loading location">
+    <main className="min-h-screen bg-slate-100    p-4 "  aria-busy="true" aria-label="Loading location">
       <div className="mx-auto w-full space-y-6 ">
         <header className="flex flex-col gap-4 rounded-xl p-4 bg-white shadow-lg sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-3">
@@ -337,7 +337,7 @@ export default function LocationUi() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 relative md:px-8 pb-10 text-slate-600">
+    <main className="min-h-screen bg-slate-100 relative    pb-10 text-slate-600">
       <div className=" p-4 w-full space-y-4">
        {user.role === "admin" && <button onClick={()=> router.push('/admin/location')} className="inline-flex items-center gap-2 rounded-full border cursor-pointer border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm   hover:border-slate-300 hover:text-slate-900">
             <ArrowLeft className="w-6 h-6"/> Back to locations

@@ -440,7 +440,7 @@ export default function ChatPage() {
       : "";
 
   return (
-    <main className="h-[calc(100vh-100px)] w-full bg-slate-100 overflow-y-hidden p-4 text-slate-700 md:px-8 ">
+    <main className="h-[calc(100vh-100px)] w-full bg-slate-100 overflow-y-hidden p-4 text-slate-700 ">
       <div className="mx-auto w-full flex flex-col gap-4 h-full  lg:flex-row">
         {error && <div role="alert" className="fixed left-1/2 top-24 z-40 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 shadow-lg">{error}</div>}
         {notice && <div role="status" className="fixed left-1/2 top-24 z-40 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 shadow-lg">{notice}<button type="button" onClick={() => setNotice("")} className="ml-3 font-semibold underline cursor-pointer">Dismiss</button></div>}

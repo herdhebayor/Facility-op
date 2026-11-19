@@ -133,7 +133,7 @@ export default function ReportDetailPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-100 p-5 md:p-8" aria-busy="true" aria-label="Loading report">
+      <main className="min-h-screen bg-slate-100 p-5   " aria-busy="true" aria-label="Loading report">
         <div className="mx-auto max-w-4xl space-y-5">
           <div className="h-48 animate-pulse rounded-[28px] bg-white" />
           <div className="h-72 animate-pulse rounded-[28px] bg-white" />
@@ -156,7 +156,7 @@ export default function ReportDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 px-4 py-6 pb-24 text-slate-900 md:px-8">
+    <main className="min-h-screen bg-slate-100 px-4 py-6 pb-24 text-slate-900   ">
       <div className="mx-auto space-y-6">
         <button type="button" onClick={() => router.push("/report")} className="inline-flex items-center gap-2 rounded-full shadow-md  bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-indigo-300 hover:border hover:text-slate-900">
           <ArrowLeft className="h-4 w-4" /> Back to reports
@@ -170,7 +170,7 @@ export default function ReportDetailPage() {
 
         <article className="overflow-hidden rounded-xl bg-white shadow-md">
           <div className={`h-2 ${report.type === "incident" || report.type === "staff_issue" ? "bg-rose-500" : "bg-indigo-500"}`} />
-          <div className="p-5 md:p-8">
+          <div className="p-5   ">
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">{report.type.replace("_", " ")}</span>
               <span className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${statusClass(report.status)}`}>{report.status}</span>
@@ -192,7 +192,7 @@ export default function ReportDetailPage() {
           </div>
         </article>
 
-        <section className="rounded-xl  bg-white p-5 shadow-md md:p-8">
+        <section className="rounded-xl  bg-white p-5 shadow-md   ">
           <div className="mb-6 flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600"><MessageSquareText className="h-5 w-5" /></div>
             <div>

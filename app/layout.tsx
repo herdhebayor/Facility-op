@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <NavBar user={user} />
             {children}
             <ChatWidget />
-            <SessionExpiryGuard />
+            {/* <SessionExpiryGuard /> */}
           </div>
         </div>
         </ThemeProvider>

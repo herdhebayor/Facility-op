@@ -13,7 +13,7 @@ import Job from "../models/Job.js";
 
 async function seed() {
   await mongoose.connect(process.env.MONGODB_URI);
-  console.log("Connected. Clearing existing demo data...");
+    ("Connected. Clearing existing demo data...");
 
   await Promise.all([
     Company.deleteMany({}),
@@ -137,9 +137,9 @@ async function seed() {
     },
   ]);
 
-  console.log("Seed complete.");
-  console.log("Manager login:  manager@ferrow.co / password123");
-  console.log("Staff login:    tunde.adisa@ferrow.co / password123");
+    ("Seed complete.");
+    ("Manager login:  manager@ferrow.co / password123");
+    ("Staff login:    tunde.adisa@ferrow.co / password123");
 
   await mongoose.disconnect();
 }

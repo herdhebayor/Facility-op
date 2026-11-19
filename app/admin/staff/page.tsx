@@ -351,7 +351,7 @@ const totalOptions = options.length;
 
   return (
     <>
-    <main className="h-screen overflow-y-scroll bg-slate-100 md:p-8  pb-10 text-slate-600 md:px-8">
+    <main className="h-screen overflow-y-scroll bg-slate-100  pb-10 text-slate-600   ">
       <div className="mx-auto w-full p-4">
         <header className="">
           <div className="">
@@ -463,7 +463,7 @@ const totalOptions = options.length;
         )}
 
         <section >
-          <div className="flex flex-col rounded-lg shadow-md bg-white p-4 gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col rounded-xl shadow-md bg-white p-4 gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Your roster</p>
               <h2 className="mt-1 text-xl font-semibold text-slate-900">People ({filteredStaff.length})</h2>

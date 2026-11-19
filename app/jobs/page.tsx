@@ -343,7 +343,7 @@ export default function TasksPage() {
   }
 
   if (loading) {
-    return <main className="min-h-screen bg-slate-100 pb-10 p-4 md:px-8" aria-busy="true">
+    return <main className="min-h-screen bg-slate-100 pb-10 p-4   " aria-busy="true">
               <div className="space-y-4 ">
                 <div className="rounded-xl space-y-2 p-4 bg-white" >
                   <div className="h-10 w-60 animate-pulse rounded-xl bg-slate-200" />
@@ -379,7 +379,7 @@ export default function TasksPage() {
   const completeTaskCount = tasks.length - openTaskCount;
 
   return (
-    <main className="min-h-screen bg-slate-100 pb-10 md:px-8 text-slate-600">
+    <main className="min-h-screen bg-slate-100 pb-10    text-slate-600">
       <div className="mx-auto">
         <div className="p-4">
           <header className="rounded-xl bg-linear-to-br from-indigo-950 via-indigo-800 to-violet-600 p-4 text-white shadow-lg ">

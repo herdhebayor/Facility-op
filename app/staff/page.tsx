@@ -351,7 +351,7 @@ const totalOptions = options.length;
 
   return (
     <>
-    <main className="h-screen overflow-y-scroll bg-slate-100 md:p-8  pb-10 text-slate-600 md:px-8">
+    <main className="h-screen overflow-y-scroll bg-slate-100     pb-10 text-slate-600   ">
       <div className="mx-auto w-full p-4">
         <header className="">
           <div className="">

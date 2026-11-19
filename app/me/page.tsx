@@ -185,7 +185,7 @@ export default function MePage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-100 p-5 md:p-8" aria-busy="true" aria-label="Loading your profile">
+      <main className="min-h-screen bg-slate-100 p-5   " aria-busy="true" aria-label="Loading your profile">
         <div className="space-y-5">
           <div className="h-56 animate-pulse rounded-xl bg-white" />
           <div className="grid gap-4 grid-cols-3">{[0, 1, 2].map((item) => <div key={item} className="h-32 animate-pulse rounded-xl bg-white" />)}</div>
@@ -217,11 +217,10 @@ export default function MePage() {
   const inboxCount = user.role === "staff" ? 0 : reports.filter((report) => report.recipientRole === user.role).length;
   const staffLocations = locations.length;
 
-  console.log("User data:", user);
 
   return (
     <>
-    <main className="min-h-screen bg-slate-100 md:p-8 pb-10 text-slate-600">
+    <main className="min-h-screen bg-slate-100 pb-10 text-slate-600">
       <div className="mx-auto w-full">
         <div className="p-4">
           <header className="overflow-hidden rounded-xl bg-white shadow-md">

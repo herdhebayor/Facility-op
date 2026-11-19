@@ -440,7 +440,7 @@ export default function ChatPage() {
       : "";
 
   return (
-    <main className="h-[calc(100vh-100px)] w-full bg-slate-100 overflow-y-hidden p-4 text-slate-700 md:px-8 ">
+    <main className="h-[calc(100vh-100px)] w-full bg-slate-100 overflow-y-hidden p-4 text-slate-700    ">
       <div className="mx-auto w-full flex flex-col gap-4 h-full  lg:flex-row">
         {error && <div role="alert" className="fixed left-1/2 top-24 z-40 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 shadow-lg">{error}</div>}
         {notice && <div role="status" className="fixed left-1/2 top-24 z-40 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 shadow-lg">{notice}<button type="button" onClick={() => setNotice("")} className="ml-3 font-semibold underline cursor-pointer">Dismiss</button></div>}
@@ -501,7 +501,7 @@ export default function ChatPage() {
           </div>
         </aside>
 
-        <section className={`max-h-[calc(100%-70px)] min-w-0 flex-1 flex-col overflow-hidden rounded-xl b bg-white shadow-sm lg:flex lg:min-h-0 ${selectedConversationId ? "flex" : "hidden lg:flex"}`}>
+        <section className={`max-h-[calc(100%-70px)] min-w-0 flex-1 flex-col overflow-hidden rounded-xl  bg-white shadow-md lg:flex lg:min-h-0 ${selectedConversationId ? "flex" : "hidden lg:flex"}`}>
           <header className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3.5 sm:px-6">
             <div className="flex min-w-0 items-center gap-3">
               {selectedConversationId && <button type="button" onClick={() => setSelectedConversationId("")} title="Back to contacts" aria-label="Back to contacts" className="rounded-xl p-2 text-slate-500   cursor-pointer hover:bg-slate-100 lg:hidden"><ArrowLeft className="h-5 w-5" /></button>}
@@ -518,7 +518,7 @@ export default function ChatPage() {
             <span className="shrink-0 rounded-full bg-indigo-50 px-2.5 py-1.5 text-xs font-semibold text-indigo-700">Saved chat</span>
           </header>
 
-          <div className="flex-1  space-y-4 overflow-y-scroll bg-zinc-100 p-4 ">
+          <div className="flex-1  space-y-4 overflow-y-scroll bg-slate-100 p-4 ">
             {!selectedConversation && <div className="flex h-full min-h-56  flex-col items-center justify-center text-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-indigo-500 shadow-sm"><MessageSquareText className="h-6 w-6" /></span>
               <h3 className="mt-4 font-semibold text-slate-800">Your conversations, kept private</h3>
@@ -559,8 +559,8 @@ export default function ChatPage() {
             })}
           </div>
 
-          <form onSubmit={(event) => void sendMessage(event)} className="border-t-2 border-slate-100 bg-slate-50/70 p-3 sm:p-4">
-            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 shadow-sm bg-slate-50 p-2">
+          <form onSubmit={(event) => void sendMessage(event)} className="border-t-2 border-slate-100 bg-white p-3 sm:p-4">
+            <div className="flex items-center gap-2 rounded-xl border border-slate-200 shadow-sm bg-slate-100 p-2">
               <input value={draft} autoComplete="off" autoFocus autoCorrect="true" autoCapitalize="true" onChange={(event) => setDraft(event.target.value)} maxLength={8000} disabled={!selectedConversation || working} placeholder={selectedConversation ? `Message ${selectedTitle}…` : "Select a conversation to start"} className="min-w-0 flex-1 bg-transparent px-2 py-2 text-sm text-slate-800 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed" />
               <button type="submit" disabled={!draft.trim() || !selectedConversation || working} className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white   hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"><Send className="h-4 w-4" /><span className="hidden sm:inline">Send</span></button>
             </div>

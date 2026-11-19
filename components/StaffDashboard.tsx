@@ -65,8 +65,6 @@ export default function StaffDashboard() {
     setReports(Array.isArray(reportData.reports) ? reportData.reports : [])
     setRoutineDepartment(departmentsData.departments?.[0] || null);
     setUser(userData.user)
-    console.log(userData)
-
     setLoading(false)
   }
 
@@ -152,7 +150,7 @@ if(loading){
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100 md:px-8 pb-10 flex flex-col text-slate-600">
+    <div className="min-h-screen bg-slate-100    pb-10 flex flex-col text-slate-600">
       <header className="">
           <div className="flex flex-col p-4 gap-4 md:flex-row md:items-center md:justify-between">
             <div>

@@ -81,7 +81,7 @@ export default function LocationUi({user}) {
   const canManageLocations = user && ["admin", "manager"].includes(user.role || "");
 
   return (
-    <main className="min-h-screen bg-slate-100 p-4 text-slate-600 md:px-8">
+    <main className="min-h-screen bg-slate-100 p-4 text-slate-600   ">
       <div className="mx-auto w-full space-y-4 ">
         <header className="rounded-xl  bg-white p-4 shadow-md">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

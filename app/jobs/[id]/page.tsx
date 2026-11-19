@@ -145,7 +145,7 @@ export default function TaskDetailPage() {
   const statusLocked = viewerRole === "staff" && shiftStatus !== "on";
 
   return (
-    <main className="min-h-full bg-slate-100 p-4 text-slate-600 md:px-8">
+    <main className="min-h-full bg-slate-100 p-4 text-slate-600   ">
       <div className=" space-y-5">
         <Link href="/jobs" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-white hover:text-indigo-700"><ArrowLeft className="h-4 w-4" />Back to tasks</Link>
         {(error || notice) && <p role={error ? "alert" : "status"} className={`rounded-xl border p-3 text-sm ${error ? "border-rose-200 bg-rose-50 text-rose-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}>{error || notice}</p>}

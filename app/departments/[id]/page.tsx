@@ -168,7 +168,7 @@ export default function DepartmentDetailPage() {
   const backPath = viewerRole === "staff" ? "/department" : "/departments";
 
   if (loading) {
-    return <main className="min-h-screen bg-white p-5 md:p-8" aria-busy="true">
+    return <main className="min-h-screen bg-white p-5   " aria-busy="true">
       <div className="mx-auto w-full space-y-5">
         <div className="h-37 animate-pulse rounded-xl bg-slate-200" />
         <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
@@ -332,7 +332,7 @@ export default function DepartmentDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 md:px-8 pb-10 text-slate-600">
+    <main className="min-h-screen bg-slate-100    pb-10 text-slate-600">
       <div className="mx-auto  flex flex-col">
         {user?.role === 'manager' || user?.role === 'admin' ? (
           <Link href={backPath} className="inline-flex items-center w-fit gap-2 text-sm px-4 pt-6 font-semibold text-indigo-700 hover:text-indigo-900">
@@ -340,9 +340,9 @@ export default function DepartmentDetailPage() {
             Back to departments
           </Link>
         ) : null}
-        {error && <p role="alert" className="rounded-2xl border border-rose-200 bg-rose-50 md:px-8 py-3 text-sm text-rose-700">{error}</p>}
+        {error && <p role="alert" className="rounded-2xl border border-rose-200 bg-rose-50    py-3 text-sm text-rose-700">{error}</p>}
         <div className="p-4">
-          <header className="overflow-hidden rounded-xl p-4 md:px-8 bg-linear-to-br from-indigo-950 via-indigo-800 to-violet-600 text-white shadow-xl shadow-indigo-950/10">
+          <header className="overflow-hidden rounded-xl p-4    bg-linear-to-br from-indigo-950 via-indigo-800 to-violet-600 text-white shadow-xl shadow-indigo-950/10">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-200">Department overview</p>

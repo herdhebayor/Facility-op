@@ -132,7 +132,7 @@ const stats = [
 
 
   return (
-    <main className="h-screen overflow-y-scroll bg-slate-100 pb-20 md:px-8 text-slate-600">
+    <main className="h-screen overflow-y-scroll bg-slate-100 pb-20    text-slate-600">
       <div className="h-full w-full ">
         <header className="overflow-hidden space-y-4 p-4">
           <div className="flex flex-col gap-6 p-4 bg-white rounded-xl shadow-md sm:flex-row sm:items-end sm:justify-between">

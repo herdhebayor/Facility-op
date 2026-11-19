@@ -4,7 +4,7 @@ import { SignJWT, jwtVerify } from "jose";
 
 export const COOKIE_NAME = "facility_session";
 const secret = new TextEncoder().encode(
-  process.env.JWT_SECRET || "development-secret"
+  process.env.JWT_SECRET
 );
 
 async function createSessionToken(payload: Record<string, unknown>) {

@@ -238,7 +238,7 @@ export default function ReportPage() {
   return (
     <div className="min-h-screen pb-10 bg-slate-100 text-slate-600">
       
-      <main className="mx-auto p-4 w-full md:px-8 space-y-4 ">
+      <main className="mx-auto p-4 w-full    space-y-4 ">
         <section className="overflow-hidden shadow-md rounded-xl bg-white p-4 ">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>

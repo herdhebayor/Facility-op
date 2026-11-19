@@ -83,9 +83,9 @@ export default function DepartmentsPage() {
   }, [departments]);
  
   return (
-    <main className="min-h-screen bg-slate-100 md:px-8 pb-10 text-slate-600">
+    <main className="min-h-screen bg-slate-100    pb-10 text-slate-600">
       <div className="mx-auto w-full space-y-4 p-4">
-        <header className="overflow-hidden rounded-xl bg-linear-to-br from-indigo-950 via-indigo-800 to-violet-600 p-6 text-white shadow-lg md:p-8">
+        <header className="overflow-hidden rounded-xl bg-linear-to-br from-indigo-950 via-indigo-800 to-violet-600 p-6 text-white shadow-lg   ">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-200">Team operations</p>
